@@ -5,7 +5,7 @@ using Twilio.Types;
 
 namespace TwilioProject
 {
-    class Twilio
+    class TwilioMightNotNeed
     {
         public void SendMessage(string toNumber, string fromNumber, string messageBody)
         {
@@ -18,6 +18,16 @@ namespace TwilioProject
                 to,
                 from: new PhoneNumber(fromNumber),
                 body: messageBody);
+        }
+        public string RecieveMessage()
+        {
+
+
+
+
+
+
+            return "";
         }
     }
 }
