@@ -9,7 +9,6 @@ namespace TwilioProject.Controllers
     public class EventUsersController : Controller
     {
         // GET: EventUsers
-<<<<<<< HEAD
         public ActionResult Index()
         {
             return View();
@@ -20,7 +19,5 @@ namespace TwilioProject.Controllers
           //  return RedirectToRoute("Attendee", "AttendeeEntryPortal");
            // return RedirectToAction("AttendeeEntryPortal", "EventUsersController");
         }
-=======
->>>>>>> 3384397327e49677ca7eaf61118bf148b6c59eda
     }
 }
