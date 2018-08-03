@@ -296,7 +296,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-<<<<<<< HEAD
     <Folder Include="Views\Attendee\" />
     <Folder Include="Views\Host\" />
     <Folder Include="Views\EventUsers\Attendee\" />
