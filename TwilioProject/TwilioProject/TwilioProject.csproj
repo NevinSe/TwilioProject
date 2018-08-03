@@ -296,8 +296,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+<<<<<<< HEAD
     <Folder Include="Views\Attendee\" />
     <Folder Include="Views\Host\" />
+    <Folder Include="Views\EventUsers\Attendee\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
