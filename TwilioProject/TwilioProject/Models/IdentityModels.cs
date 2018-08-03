@@ -29,5 +29,8 @@ namespace TwilioProject.Models
         {
             return new ApplicationDbContext();
         }
+        DbSet<Events> Events { get; set; }
+        DbSet<EventUsers> EventUsers { get; set; }
+        DbSet<Songs> Songs { get; set; }
     }
 }
