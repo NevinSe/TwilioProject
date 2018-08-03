@@ -7,24 +7,17 @@ namespace TwilioProject
 {
     class Twilio
     {
-        public Twilio()
+        public void SendMessage(string toNumber, string fromNumber, string messageBody)
         {
-            Test();
-        }
-        public void Test()
-        {
-            // Find your Account Sid and Auth Token at twilio.com/console
             const string accountSid = Keys.TwilioLiveSId;
             const string authToken = Keys.AuthTokenLive;
             TwilioClient.Init(accountSid, authToken);
 
-            var to = new PhoneNumber("+12625271771");
+            var to = new PhoneNumber(toNumber);
             var message = MessageResource.Create(
                 to,
-                from: new PhoneNumber("+19842057019"),
-                body: "This is the ship that made the Kessel Run in fourteen parsecs?");
-
-            Console.WriteLine(message.Sid);
+                from: new PhoneNumber(fromNumber),
+                body: messageBody);
         }
     }
 }
