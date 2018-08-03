@@ -13,11 +13,5 @@ namespace TwilioProject.Controllers
         {
             return View();
         }
-        public ActionResult AttendeeEntryPortal()
-        {
-            return View();
-          //  return RedirectToRoute("Attendee", "AttendeeEntryPortal");
-           // return RedirectToAction("AttendeeEntryPortal", "EventUsersController");
-        }
     }
 }

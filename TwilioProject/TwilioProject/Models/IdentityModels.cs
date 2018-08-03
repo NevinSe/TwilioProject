@@ -32,5 +32,9 @@ namespace TwilioProject.Models
         DbSet<Events> Events { get; set; }
         DbSet<EventUsers> EventUsers { get; set; }
         DbSet<Songs> Songs { get; set; }
+
+        public System.Data.Entity.DbSet<TwilioProject.Models.EventUsers> EventUsers { get; set; }
+
+        public System.Data.Entity.DbSet<TwilioProject.Models.Events> Events { get; set; }
     }
 }
