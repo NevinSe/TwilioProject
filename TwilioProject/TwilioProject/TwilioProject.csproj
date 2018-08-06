@@ -303,11 +303,12 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\EventUsers\IndexHost.cshtml" />
+    <Content Include="Views\Host\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\EventUsers\" />
-    <Folder Include="Views\Host\" />
+    <Folder Include="Views\EventUsers\Host\" />
     <Folder Include="Views\Sms\" />
   </ItemGroup>
   <ItemGroup>

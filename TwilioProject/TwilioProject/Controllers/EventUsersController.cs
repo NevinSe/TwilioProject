@@ -13,5 +13,11 @@ namespace TwilioProject.Controllers
         {
             return View();
         }
+
+        // GET: Host Controller
+        public ActionResult IndexHost()
+        {
+            return View();
+        }
     }
 }
