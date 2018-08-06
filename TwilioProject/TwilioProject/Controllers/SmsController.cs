@@ -13,6 +13,7 @@ namespace TwilioProject.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private Regex regex = new Regex(@"[A-Z0-9a-z]{5}");
         private Regex songSelection = new Regex(@"[1-5]");
+        private YoutubeSearch search = new YoutubeSearch();
 
         [HttpPost]
         public void Index()
