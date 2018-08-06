@@ -14,6 +14,7 @@ namespace TwilioProject.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private Regex regex = new Regex(@"[A-Z0-9a-z]{5}");
         private Regex songSelection = new Regex(@"[1-5]");
+        private Regex banUser = new Regex(@"ban [(]?\d{3}[)]?[-]?\s?\d{3}\s?[-]?\d{4}");
         private YoutubeSearch search = new YoutubeSearch();
 
         [HttpPost]
@@ -25,17 +26,29 @@ namespace TwilioProject.Controllers
             // Event Code
             if (regex.IsMatch(requestBody))
             {
-                CheckPhone(requestPhoneNumber, requestBody);
+                EventCode(requestPhoneNumber, requestBody);
+            }
+            // Ban User
+            else if(banUser.IsMatch(requestBody.ToLower()))
+            {
+                // TODO: Ban User
+            }
+            // Ban Current Song
+            else if(requestBody.ToLower() == "ban song")
+            {
+                // TODO: Ban Current Song
             }
             // Song Selection
             else if (songSelection.IsMatch(requestBody))
             {
                 SelectSong(requestBody, PhoneParse(requestPhoneNumber));
             }
+            // Help
             else if (requestBody.ToLower() == "help")
             {
                 // TODO: Help Message
             }
+            // Queue
             else if(requestBody.ToLower() == "queue" && db.Events.Where(p => p.EventID == (db.EventUsers.Where(e => e.PhoneNumber == PhoneParse(requestPhoneNumber)).Single().EventID)).Single().IsHosted == true)
             {
                 var videos = db.Playlist;
@@ -49,6 +62,21 @@ namespace TwilioProject.Controllers
                 MessagingResponse message = new MessagingResponse();
                 message.Message();
                 SendMessage(message);
+            }
+            // Hot Songs
+            else if(requestBody.ToLower() == "hot")
+            {
+                // TODO: Send Message of Top Songs
+            }
+            // Like
+            else if(requestBody.ToLower() == "like")
+            {
+                // TODO: Like a Song
+            }
+            // Dislike
+            else if(requestBody.ToLower() == "dislike")
+            {
+                // TODO: Dislike a Song
             }
             // Song Search
             else
@@ -117,13 +145,13 @@ namespace TwilioProject.Controllers
                 default:
                     break;
             }
+            db.SaveChanges();
             MessagingResponse message = new MessagingResponse();
             message.Message("Your song has been added to the queue.");
             SendMessage(message);
         }
         public int PhoneParse(string number)
         {
-            // Get Phone Number into format
             string phoneNumber = "";
             for (int i = 2; i < number.Length; i++)
             {
@@ -131,7 +159,7 @@ namespace TwilioProject.Controllers
             }
             return int.Parse(phoneNumber);
         }
-        public void CheckPhone(string number, string message)
+        public void EventCode(string number, string message)
         {
             int userPhone = PhoneParse(number);
             
