@@ -17,5 +17,7 @@ namespace TwilioProject.Models
         [ForeignKey("Events")]
         public int EventID { get; set; }
         public Events Events { get; set; }
+        [Display(Name = "Number of Messages")]
+        public int NumbOfMessages { get; set; }
     }
 }

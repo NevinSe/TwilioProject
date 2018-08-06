@@ -19,6 +19,8 @@ namespace TwilioProject.Models
         public ApplicationUser ApplicationUser { get; set; }
         [Required]
         [Display(Name = "Event Code")]
-        public int EventCode { get; set; }
+        public string EventCode { get; set; }
+        [Display(Name = "Is Hosted")]
+        public bool IsHosted { get; set; }
     }
 }
