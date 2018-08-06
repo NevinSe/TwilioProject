@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "IndexHost";
+}
+<div class="container whitespace-remove" id="host-index-container">
+    <div class="row whitespace-remove" id="hostJumbotron">
+        <div class="jumbotron jumbotron-fluid whitespace-remove">
+            <div class="container" id="hostJumboTronContent">
+                <center>
+                    <h3>Current Event Code</h3>
+                    <h1>1B24X</h1>
+                </center>
+                
+            </div>
+        </div>
+    </div>
+    <div class="row whitespace-remove" style="background-color: blue;">
+        <div class=" whitespace-remove" style="background-color: red;">
+            <div class="collapse"  id="eventMenu" >
+                <div class="bg-primary p-4 whitespace-remove">
+                    <button class="btn btn-primary btn-block btn-lg" type="button">New Event</button>
+                    <button class="btn btn-info btn-block btn-lg" type="button">Manage Current Event</button>
+                    <button class="btn btn-primary btn-block btn-lg" type="button">View Past Events</button>
+                </div>
+            </div>
+            <nav class="whitespace-remove">
+                <button class="btn btn-primary btn-block btn-lg navbar-toggler test" type="button" data-toggle="collapse" data-target="#eventMenu" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                    My Events Manager
+                </button>
+            </nav>
+        </div>
+        <div class="pos-f-t whitespace-remove" style="background-color: red">
+            <div class="collapse whitespace-remove" id="playlistMenu">
+                <div class="bg-primary p-4 whitespace-remove">
+                    <button class="btn btn-primary btn-block btn-lg" type="button">Set Playlist</button>
+                    <button class="btn btn-info btn-block btn-lg" type="button">View Current Que</button>
+                    <button class="btn btn-primary btn-block btn-lg" type="button">View Popular Songs</button>
+                    <button class="btn btn-info btn-block btn-lg" type="button">Manage Banned Songs</button>
+                </div>
+            </div>
+            <nav class="whitespace-remove">
+                <button class="btn btn-info btn-block btn-lg navbar-toggler test" type="button" data-toggle="collapse" data-target="#playlistMenu" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                    My Music
+                </button>
+            </nav>
+        </div>
+    </div>
+   
+    @*<a href="#" class="btn btn-primary btn-block btn-lg" role="button" aria-disabled="false" data-toggle="modal" data-target="#modalHostLoginForm">Host</a>
+        <a href="#" class="btn btn-info btn-block btn-lg" role="button" aria-disabled="true" data-toggle="modal" data-target="#modalAttendeeLoginForm">Attendee</a>*@
+</div>
