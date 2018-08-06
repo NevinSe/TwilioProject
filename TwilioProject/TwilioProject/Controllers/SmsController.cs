@@ -1,11 +1,19 @@
-﻿using System.Web.Mvc;
+﻿using System.Data.Entity;
+using System.Web.Mvc;
 using Twilio.AspNet.Mvc;
 using Twilio.TwiML;
 using TwilioProject;
+using TwilioProject.Models;
+
 public class SmsController : TwilioController
 {
+    private ApplicationDbContext db;
+    public SmsController()
+    {
+        db = new ApplicationDbContext();
+    }
     [HttpPost]
-    public ActionResult Index()
+    public void Index()
     {
         var requestPhoneNumber = Request.Form["From"];
         var requestBody = Request.Form["Body"];
@@ -18,6 +26,14 @@ public class SmsController : TwilioController
         {
             response.Message("Goodbye");
         }
-        return TwiML(response);
+
+
+        
+
+        sendMessage(response);
+    }
+    public ActionResult sendMessage(MessagingResponse message)
+    {
+        return TwiML(message);
     }
 }
