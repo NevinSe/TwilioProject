@@ -48,15 +48,15 @@ namespace TwilioProject.Controllers
             {
                 SelectSong(requestBody, PhoneParse(requestPhoneNumber));
             }
-            // Help User
-            else if (requestBody.ToLower() == "help")
-            {
-                // TODO: Help Message For Users
-            }
             // Help Host
             else if (requestBody.ToLower() == "help" && PhoneParse(requestPhoneNumber) == db.EventUsers.Where(e => e.PhoneNumber == PhoneParse(requestPhoneNumber) && e.UserID == db.Events.Where(ev => ev.HostID == e.UserID).Single().HostID && db.Events.Where(p => p.HostID == e.UserID).Single().IsHosted).Single().PhoneNumber)
             {
                 // TODO: Help message
+            }
+            // Help User
+            else if (requestBody.ToLower() == "help")
+            {
+                // TODO: Help Message For Users
             }
             // Queue
             else if(requestBody.ToLower() == "queue" && db.Events.Where(p => p.EventID == (db.EventUsers.Where(e => e.PhoneNumber == PhoneParse(requestPhoneNumber)).Single().EventID)).Single().IsHosted == true)
