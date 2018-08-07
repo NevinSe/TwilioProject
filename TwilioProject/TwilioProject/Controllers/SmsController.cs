@@ -40,11 +40,12 @@ namespace TwilioProject.Controllers
                 var currentSong = db.Playlist.First();
                 db.Songs.Where(s => s.YoutubeId == currentSong.YoutubeID).Single().IsBanned = true;
                 db.SaveChanges();
+                SkipSong();
             }
             // Skip Song
             else if(requestBody.ToLower() == "skip")
             {
-                // TODO: Skip Current Song
+                SkipSong();
             }
             // Song Selection
             else if (songSelection.IsMatch(requestBody))
@@ -84,12 +85,16 @@ namespace TwilioProject.Controllers
             // Like
             else if(requestBody.ToLower() == "like")
             {
-                var currentSong = db.Playlist.First();
+                var currentSong = db.Songs.Where(s => s.YoutubeId == db.Playlist.First().YoutubeID).Single();
+                currentSong.Likes++;
+                db.SaveChanges();
             }
             // Dislike
             else if(requestBody.ToLower() == "dislike")
             {
-                // TODO: Dislike a Song
+                var currentSong = db.Songs.Where(s => s.YoutubeId == db.Playlist.First().YoutubeID).Single();
+                currentSong.Dislikes++;
+                db.SaveChanges();
             }
             // Song Search
             else
@@ -98,6 +103,10 @@ namespace TwilioProject.Controllers
                 VideosToMessage(videos);
                 IdAndTitleToDB(videos, Phone.Parse(requestPhoneNumber));
             }
+        }
+        public void SkipSong()
+        {
+            // TODO: Skip Song
         }
         public void VideosToMessage(List<string[]> videos)
         {
