@@ -28,6 +28,24 @@ namespace TwilioProject.Controllers
             {
                 EventCode(requestPhoneNumber, requestBody);
             }
+            // Get Phone Number Of Current Song
+            else if(requestBody.ToLower() == "who played this")
+            {
+
+
+
+
+                // TODO: REMOVE .TOSTRING() ON LINE 44
+
+
+
+
+                var currentSong = db.Playlist.First();
+                var whoPlayed = db.EventUsers.Where(e => e.PhoneNumber == currentSong.PhoneNumber.ToString()).Single().PhoneNumber;
+                MessagingResponse message = new MessagingResponse();
+                message.Message(whoPlayed);
+                SendMessage(message);
+            }
             // Ban User
             else if(banUser.IsMatch(requestBody.ToLower()) && Phone.Parse(requestPhoneNumber) == db.EventUsers.Where(e => e.PhoneNumber == Phone.Parse(requestPhoneNumber) && e.UserID == db.Events.Where(ev => ev.HostID == e.UserID).Single().HostID && db.Events.Where(p => p.HostID == e.UserID).Single().IsHosted).Single().PhoneNumber)
             {
@@ -40,11 +58,12 @@ namespace TwilioProject.Controllers
                 var currentSong = db.Playlist.First();
                 db.Songs.Where(s => s.YoutubeId == currentSong.YoutubeID).Single().IsBanned = true;
                 db.SaveChanges();
+                SkipSong();
             }
             // Skip Song
             else if(requestBody.ToLower() == "skip")
             {
-                // TODO: Skip Current Song
+                SkipSong();
             }
             // Song Selection
             else if (songSelection.IsMatch(requestBody))
@@ -54,12 +73,26 @@ namespace TwilioProject.Controllers
             // Help Host
             else if (requestBody.ToLower() == "help" && Phone.Parse(requestPhoneNumber) == db.EventUsers.Where(e => e.PhoneNumber == Phone.Parse(requestPhoneNumber) && e.UserID == db.Events.Where(ev => ev.HostID == e.UserID).Single().HostID && db.Events.Where(p => p.HostID == e.UserID).Single().IsHosted).Single().PhoneNumber)
             {
-                // TODO: Help message
+                string hostHelpString = "Event Host Commands:\r\nBan User => 'ban (phone number)'\r\nBan Current Song => 'ban song'\r\n" +
+                    "Skip Current Song => 'skip'\r\nWho Is Playing The Current Song => 'who played this'\r\n" +
+                    "Get A List Of The Song Queue => 'queue'\r\nGet A List Of 'Hot' Songs => 'hot'\r\n" +
+                    "Like A Song => 'like'\r\nDislike A Song => 'song'\r\nRequest A Song To Be Added => 'songtitle'";
+                MessagingResponse message = new MessagingResponse();
+                message.Message(hostHelpString);
+                SendMessage(message);
             }
             // Help User
-            else if (requestBody.ToLower() == "help")
+            else if (requestBody.ToLower() == "help" && !(Phone.Parse(requestPhoneNumber) == db.EventUsers.Where(e => e.PhoneNumber == Phone.Parse(requestPhoneNumber) && e.UserID == db.Events.Where(ev => ev.HostID == e.UserID).Single().HostID && db.Events.Where(p => p.HostID == e.UserID).Single().IsHosted).Single().PhoneNumber))
             {
-                // TODO: Help Message For Users
+                string userHelpString = "Event User Commands:\r\n" +
+                    "Who Is Playing The Current Song => 'who played this'\r\n" +
+                    "Get A List Of The Song Queue => 'queue'\r\n" +
+                    "Get A List Of 'Hot' Songs => 'hot'\r\n" +
+                    "Like A Song => 'like'\r\nDislike A Song => 'song'\r\n" +
+                    "Request A Song To Be Added => 'songtitle'";
+                MessagingResponse message = new MessagingResponse();
+                message.Message(userHelpString);
+                SendMessage(message);
             }
             // Queue
             else if(requestBody.ToLower() == "queue" && db.Events.Where(p => p.EventID == (db.EventUsers.Where(e => e.PhoneNumber == Phone.Parse(requestPhoneNumber)).Single().EventID)).Single().IsHosted == true)
@@ -79,17 +112,44 @@ namespace TwilioProject.Controllers
             // Hot Songs
             else if(requestBody.ToLower() == "hot")
             {
-                // TODO: Send Message of Top Songs
+                int numberOfHotSongs = 5;
+                string messageString = "The Top Songs Are:\r\n";
+                List<string> topSongTitles = new List<string>();
+                int counter = 1;
+                for(int i = 0; i < numberOfHotSongs; i++)
+                {
+                    var currentSong = db.Songs.Where(s => s.EventID == (db.EventUsers.Where(e => e.PhoneNumber == Phone.Parse(requestPhoneNumber)).Single().EventID)).OrderBy(o => o.Likes).ElementAtOrDefault(i);
+                    if(currentSong == default(Songs))
+                    {
+                        topSongTitles.Add("");
+                    }
+                    else
+                    {
+                        topSongTitles.Add(currentSong.Title);
+                    }
+                }
+                foreach(string songTitle in topSongTitles)
+                {
+                    messageString += $"{counter}.) {songTitle}\r\n";
+                    counter++;
+                }
+                MessagingResponse message = new MessagingResponse();
+                message.Message(messageString);
+                SendMessage(message);
             }
             // Like
             else if(requestBody.ToLower() == "like")
             {
-                var currentSong = db.Playlist.First();
+                var currentSong = db.Songs.Where(s => s.YoutubeId == db.Playlist.First().YoutubeID).Single();
+                currentSong.Likes++;
+                db.SaveChanges();
             }
             // Dislike
             else if(requestBody.ToLower() == "dislike")
             {
-                // TODO: Dislike a Song
+                var currentSong = db.Songs.Where(s => s.YoutubeId == db.Playlist.First().YoutubeID).Single();
+                currentSong.Dislikes++;
+                db.SaveChanges();
             }
             // Song Search
             else
@@ -98,6 +158,10 @@ namespace TwilioProject.Controllers
                 VideosToMessage(videos);
                 IdAndTitleToDB(videos, Phone.Parse(requestPhoneNumber));
             }
+        }
+        public void SkipSong()
+        {
+            // TODO: Skip Song
         }
         public void VideosToMessage(List<string[]> videos)
         {
