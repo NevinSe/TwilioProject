@@ -19,5 +19,9 @@ namespace TwilioProject.Controllers
         {
             return View();
         }
+        public ActionResult AttendeeIndex()
+        {
+            return View();
+        }
     }
 }
