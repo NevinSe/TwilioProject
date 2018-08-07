@@ -17,6 +17,8 @@ namespace TwilioProject.Controllers
         // GET: Host Controller
         public ActionResult IndexHost()
         {
+            string[] testString = new string[] { "Option 1", "Option 2" };
+            ViewBag.sudo = new SelectList(testString);
             return View();
         }
     }
