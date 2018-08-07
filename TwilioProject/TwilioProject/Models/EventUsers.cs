@@ -10,7 +10,7 @@ namespace TwilioProject.Models
     public class EventUsers
     {
         [Key]
-        public int UserID { get; set; }
+        public string UserID { get; set; }
         [Required]
         [Display(Name = "Phone Number")]
         public int PhoneNumber { get; set; }

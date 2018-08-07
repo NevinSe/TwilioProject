@@ -29,24 +29,34 @@ namespace TwilioProject.Controllers
                 EventCode(requestPhoneNumber, requestBody);
             }
             // Ban User
-            else if(banUser.IsMatch(requestBody.ToLower()))
+            else if(banUser.IsMatch(requestBody.ToLower()) && PhoneParse(requestPhoneNumber) == db.EventUsers.Where(e => e.PhoneNumber == PhoneParse(requestPhoneNumber) && e.UserID == db.Events.Where(ev => ev.HostID == e.UserID).Single().HostID && db.Events.Where(p => p.HostID == e.UserID).Single().IsHosted).Single().PhoneNumber)
             {
                 // TODO: Ban User
             }
             // Ban Current Song
-            else if(requestBody.ToLower() == "ban song")
+            else if(requestBody.ToLower() == "ban song" && PhoneParse(requestPhoneNumber) == db.EventUsers.Where(e => e.PhoneNumber == PhoneParse(requestPhoneNumber) && e.UserID == db.Events.Where(ev => ev.HostID == e.UserID).Single().HostID && db.Events.Where(p => p.HostID == e.UserID).Single().IsHosted).Single().PhoneNumber)
             {
                 // TODO: Ban Current Song
+            }
+            // Skip Song
+            else if(requestBody.ToLower() == "skip")
+            {
+                // TODO: Skip Current Song
             }
             // Song Selection
             else if (songSelection.IsMatch(requestBody))
             {
                 SelectSong(requestBody, PhoneParse(requestPhoneNumber));
             }
-            // Help
+            // Help User
             else if (requestBody.ToLower() == "help")
             {
-                // TODO: Help Message
+                // TODO: Help Message For Users
+            }
+            // Help Host
+            else if (requestBody.ToLower() == "help" && PhoneParse(requestPhoneNumber) == db.EventUsers.Where(e => e.PhoneNumber == PhoneParse(requestPhoneNumber) && e.UserID == db.Events.Where(ev => ev.HostID == e.UserID).Single().HostID && db.Events.Where(p => p.HostID == e.UserID).Single().IsHosted).Single().PhoneNumber)
+            {
+                // TODO: Help message
             }
             // Queue
             else if(requestBody.ToLower() == "queue" && db.Events.Where(p => p.EventID == (db.EventUsers.Where(e => e.PhoneNumber == PhoneParse(requestPhoneNumber)).Single().EventID)).Single().IsHosted == true)
@@ -71,7 +81,7 @@ namespace TwilioProject.Controllers
             // Like
             else if(requestBody.ToLower() == "like")
             {
-                // TODO: Like a Song
+                var currentSong = db.Playlist.First();
             }
             // Dislike
             else if(requestBody.ToLower() == "dislike")
