@@ -28,10 +28,11 @@
                     <input type="password" id="defaultForm-pass" class="form-control validate">
                     <label data-error="wrong" data-success="right" for="defaultForm-pass">Your Password</label>
                 </div>
-                <a href="#" onclick="location.href='@Url.Action("ActionName")'">Something</a>
+                
             </div>
             <div class="modal-footer d-flex justify-content-center">
                 <button class="btn btn-default">Login</button>
+                <a href="#" class="btn alert-success" onclick="location.href='@Url.Action("Register", "Account")'">Register</a>
             </div>
         </div>
     </div>

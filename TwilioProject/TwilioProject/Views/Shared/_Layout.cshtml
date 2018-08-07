@@ -28,12 +28,11 @@
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
-    </div>
-    <div class="container body-content">*@
-        @RenderBody()
-        @*<hr />
-       
     </div>*@
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+    </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
