@@ -1,6 +1,10 @@
 /**!
  * @fileOverview Kickass library to create and place poppers near their reference elements.
+<<<<<<< HEAD
  * @version 1.14.0
+=======
+ * @version 1.14.3
+>>>>>>> cb19e7a4778c6d54f726bdeb9ee986a4a2b3fa86
  * @license
  * Copyright (c) 2016 Federico Zivolo and contributors
  *
@@ -87,6 +91,7 @@ function getScrollParent(element) {
   return getScrollParent(getParentNode(element));
 }
 
+<<<<<<< HEAD
 /**
  * Tells if you are running Internet Explorer
  * @method
@@ -121,6 +126,29 @@ var isIE = function () {
   });
   return cache[version];
 };
+=======
+var isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
+
+var isIE11 = isBrowser && !!(window.MSInputMethodContext && document.documentMode);
+var isIE10 = isBrowser && /MSIE 10/.test(navigator.userAgent);
+
+/**
+ * Determines if the browser is Internet Explorer
+ * @method
+ * @memberof Popper.Utils
+ * @param {Number} version to check
+ * @returns {Boolean} isIE
+ */
+function isIE(version) {
+  if (version === 11) {
+    return isIE11;
+  }
+  if (version === 10) {
+    return isIE10;
+  }
+  return isIE11 || isIE10;
+}
+>>>>>>> cb19e7a4778c6d54f726bdeb9ee986a4a2b3fa86
 
 /**
  * Returns the offset parent of the given element
@@ -629,7 +657,10 @@ function computeAutoPlacement(placement, refRect, popper, reference, boundariesE
   return computedPlacement + (variation ? '-' + variation : '');
 }
 
+<<<<<<< HEAD
 var isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
+=======
+>>>>>>> cb19e7a4778c6d54f726bdeb9ee986a4a2b3fa86
 var longerTimeoutBrowsers = ['Edge', 'Trident', 'Firefox'];
 var timeoutDuration = 0;
 for (var i = 0; i < longerTimeoutBrowsers.length; i += 1) {

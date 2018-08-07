@@ -1,39 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
-
-using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
-using Google.Apis.Upload;
-using Google.Apis.Util.Store;
 using Google.Apis.YouTube.v3;
-using Google.Apis.YouTube.v3.Data;
 
 namespace TwilioProject
 {
-    /// <summary>
-    /// YouTube Data API v3 sample: search by keyword.
-    /// Relies on the Google APIs Client Library for .NET, v1.7.0 or higher.
-    /// See https://developers.google.com/api-client-library/dotnet/get_started
-    ///
-    /// Set ApiKey to the API key value from the APIs & auth > Registered apps tab of
-    ///   https://cloud.google.com/console
-    /// Please ensure that you have enabled the YouTube Data API for your project.
-    /// </summary>
     internal class YoutubeSearch
     {
         [STAThread]
         static void Main(string[] args)
         {
-            Console.WriteLine("YouTube Data API: Search");
-            Console.WriteLine("========================");
-
             try
             {
-                new YoutubeSearch().Run("korn").Wait();
+                new YoutubeSearch().SearchByTitle("korn").Wait();
             }
             catch (AggregateException ex)
             {
@@ -42,14 +22,10 @@ namespace TwilioProject
                     Console.WriteLine("Error: " + e.Message);
                 }
             }
-
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
         }
 
-        public async Task Run(string searchTerm)
+        public async Task<List<string[]>> SearchByTitle(string searchTerm)
         {
-
             var youtubeService = new YouTubeService(new BaseClientService.Initializer()
             {
                 ApiKey = Keys.YoutubeApiKey,
@@ -57,37 +33,21 @@ namespace TwilioProject
             });
 
             var searchListRequest = youtubeService.Search.List("snippet");
-            searchListRequest.Q = searchTerm; // Replace with your search term.
-            searchListRequest.MaxResults = 10;
-
-            // Call the search.list method to retrieve results matching the specified query term.
+            searchListRequest.Q = searchTerm;
+            searchListRequest.MaxResults = 5;
+            
             var searchListResponse = await searchListRequest.ExecuteAsync();
 
-            List<string> videos = new List<string>();
-            List<string> channels = new List<string>();
-            List<string> playlists = new List<string>();
-
-            // Add each result to the appropriate list, and then display the lists of
-            // matching videos, channels, and playlists.
+            List<string[]> videos = new List<string[]>();
+            
             foreach (var searchResult in searchListResponse.Items)
             {
-                switch (searchResult.Id.Kind)
-                {
-                    case "youtube#video":
-                        videos.Add(String.Format("{0} ({1})", searchResult.Snippet.Title, searchResult.Id.VideoId));
-                        break;
-
-                    case "youtube#channel":
-                        channels.Add(String.Format("{0} ({1})", searchResult.Snippet.Title, searchResult.Id.ChannelId));
-                        break;
-
-                    case "youtube#playlist":
-                        playlists.Add(String.Format("{0} ({1})", searchResult.Snippet.Title, searchResult.Id.PlaylistId));
-                        break;
-                }
+                var temp = new string[2];
+                temp[0] = searchResult.Snippet.Title;
+                temp[1] = searchResult.Id.VideoId;
+                videos.Add(temp);
             }
-
-
+            return videos;
         }
     }
 }

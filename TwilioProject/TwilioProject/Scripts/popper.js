@@ -1,6 +1,10 @@
 /**!
  * @fileOverview Kickass library to create and place poppers near their reference elements.
+<<<<<<< HEAD
  * @version 1.14.0
+=======
+ * @version 1.14.3
+>>>>>>> cb19e7a4778c6d54f726bdeb9ee986a4a2b3fa86
  * @license
  * Copyright (c) 2016 Federico Zivolo and contributors
  *
@@ -22,7 +26,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+<<<<<<< HEAD
 const isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
+=======
+var isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
+
+>>>>>>> cb19e7a4778c6d54f726bdeb9ee986a4a2b3fa86
 const longerTimeoutBrowsers = ['Edge', 'Trident', 'Firefox'];
 let timeoutDuration = 0;
 for (let i = 0; i < longerTimeoutBrowsers.length; i += 1) {
@@ -144,6 +153,7 @@ function getScrollParent(element) {
   return getScrollParent(getParentNode(element));
 }
 
+<<<<<<< HEAD
 /**
  * Tells if you are running Internet Explorer
  * @method
@@ -174,6 +184,27 @@ var isIE = function (version = 'all') {
   cache.all = cache.all || Object.keys(cache).some(key => cache[key]);
   return cache[version];
 };
+=======
+const isIE11 = isBrowser && !!(window.MSInputMethodContext && document.documentMode);
+const isIE10 = isBrowser && /MSIE 10/.test(navigator.userAgent);
+
+/**
+ * Determines if the browser is Internet Explorer
+ * @method
+ * @memberof Popper.Utils
+ * @param {Number} version to check
+ * @returns {Boolean} isIE
+ */
+function isIE(version) {
+  if (version === 11) {
+    return isIE11;
+  }
+  if (version === 10) {
+    return isIE10;
+  }
+  return isIE11 || isIE10;
+}
+>>>>>>> cb19e7a4778c6d54f726bdeb9ee986a4a2b3fa86
 
 /**
  * Returns the offset parent of the given element
@@ -847,6 +878,10 @@ function update() {
 
   // compute the popper offsets
   data.offsets.popper = getPopperOffsets(this.popper, data.offsets.reference, data.placement);
+<<<<<<< HEAD
+=======
+
+>>>>>>> cb19e7a4778c6d54f726bdeb9ee986a4a2b3fa86
   data.offsets.popper.position = this.options.positionFixed ? 'fixed' : 'absolute';
 
   // run the modifiers
@@ -1144,11 +1179,21 @@ function computeStyle(data, options) {
     position: popper.position
   };
 
+<<<<<<< HEAD
   // floor sides to avoid blurry text
   const offsets = {
     left: Math.floor(popper.left),
     top: Math.floor(popper.top),
     bottom: Math.floor(popper.bottom),
+=======
+  // Avoid blurry text by using full pixel integers.
+  // For pixel-perfect positioning, top/bottom prefers rounded
+  // values, while left/right prefers floored values.
+  const offsets = {
+    left: Math.floor(popper.left),
+    top: Math.round(popper.top),
+    bottom: Math.round(popper.bottom),
+>>>>>>> cb19e7a4778c6d54f726bdeb9ee986a4a2b3fa86
     right: Math.floor(popper.right)
   };
 
@@ -1682,7 +1727,28 @@ function preventOverflow(data, options) {
     boundariesElement = getOffsetParent(boundariesElement);
   }
 
+<<<<<<< HEAD
   const boundaries = getBoundaries(data.instance.popper, data.instance.reference, options.padding, boundariesElement, data.positionFixed);
+=======
+  // NOTE: DOM access here
+  // resets the popper's position so that the document size can be calculated excluding
+  // the size of the popper element itself
+  const transformProp = getSupportedPropertyName('transform');
+  const popperStyles = data.instance.popper.style; // assignment to help minification
+  const { top, left, [transformProp]: transform } = popperStyles;
+  popperStyles.top = '';
+  popperStyles.left = '';
+  popperStyles[transformProp] = '';
+
+  const boundaries = getBoundaries(data.instance.popper, data.instance.reference, options.padding, boundariesElement, data.positionFixed);
+
+  // NOTE: DOM access here
+  // restores the original style properties after the offsets have been computed
+  popperStyles.top = top;
+  popperStyles.left = left;
+  popperStyles[transformProp] = transform;
+
+>>>>>>> cb19e7a4778c6d54f726bdeb9ee986a4a2b3fa86
   options.boundaries = boundaries;
 
   const order = options.priority;

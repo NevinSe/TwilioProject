@@ -1,6 +1,10 @@
 /**!
  * @fileOverview Kickass library to create and place poppers near their reference elements.
+<<<<<<< HEAD
  * @version 1.14.0
+=======
+ * @version 1.14.3
+>>>>>>> cb19e7a4778c6d54f726bdeb9ee986a4a2b3fa86
  * @license
  * Copyright (c) 2016 Federico Zivolo and contributors
  *
@@ -29,6 +33,10 @@
 }(this, (function () { 'use strict';
 
 var isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
+<<<<<<< HEAD
+=======
+
+>>>>>>> cb19e7a4778c6d54f726bdeb9ee986a4a2b3fa86
 var longerTimeoutBrowsers = ['Edge', 'Trident', 'Firefox'];
 var timeoutDuration = 0;
 for (var i = 0; i < longerTimeoutBrowsers.length; i += 1) {
@@ -155,6 +163,7 @@ function getScrollParent(element) {
   return getScrollParent(getParentNode(element));
 }
 
+<<<<<<< HEAD
 /**
  * Tells if you are running Internet Explorer
  * @method
@@ -189,6 +198,27 @@ var isIE = function () {
   });
   return cache[version];
 };
+=======
+var isIE11 = isBrowser && !!(window.MSInputMethodContext && document.documentMode);
+var isIE10 = isBrowser && /MSIE 10/.test(navigator.userAgent);
+
+/**
+ * Determines if the browser is Internet Explorer
+ * @method
+ * @memberof Popper.Utils
+ * @param {Number} version to check
+ * @returns {Boolean} isIE
+ */
+function isIE(version) {
+  if (version === 11) {
+    return isIE11;
+  }
+  if (version === 10) {
+    return isIE10;
+  }
+  return isIE11 || isIE10;
+}
+>>>>>>> cb19e7a4778c6d54f726bdeb9ee986a4a2b3fa86
 
 /**
  * Returns the offset parent of the given element
@@ -941,6 +971,10 @@ function update() {
 
   // compute the popper offsets
   data.offsets.popper = getPopperOffsets(this.popper, data.offsets.reference, data.placement);
+<<<<<<< HEAD
+=======
+
+>>>>>>> cb19e7a4778c6d54f726bdeb9ee986a4a2b3fa86
   data.offsets.popper.position = this.options.positionFixed ? 'fixed' : 'absolute';
 
   // run the modifiers
@@ -1246,11 +1280,21 @@ function computeStyle(data, options) {
     position: popper.position
   };
 
+<<<<<<< HEAD
   // floor sides to avoid blurry text
   var offsets = {
     left: Math.floor(popper.left),
     top: Math.floor(popper.top),
     bottom: Math.floor(popper.bottom),
+=======
+  // Avoid blurry text by using full pixel integers.
+  // For pixel-perfect positioning, top/bottom prefers rounded
+  // values, while left/right prefers floored values.
+  var offsets = {
+    left: Math.floor(popper.left),
+    top: Math.round(popper.top),
+    bottom: Math.round(popper.bottom),
+>>>>>>> cb19e7a4778c6d54f726bdeb9ee986a4a2b3fa86
     right: Math.floor(popper.right)
   };
 
@@ -1806,7 +1850,31 @@ function preventOverflow(data, options) {
     boundariesElement = getOffsetParent(boundariesElement);
   }
 
+<<<<<<< HEAD
   var boundaries = getBoundaries(data.instance.popper, data.instance.reference, options.padding, boundariesElement, data.positionFixed);
+=======
+  // NOTE: DOM access here
+  // resets the popper's position so that the document size can be calculated excluding
+  // the size of the popper element itself
+  var transformProp = getSupportedPropertyName('transform');
+  var popperStyles = data.instance.popper.style; // assignment to help minification
+  var top = popperStyles.top,
+      left = popperStyles.left,
+      transform = popperStyles[transformProp];
+
+  popperStyles.top = '';
+  popperStyles.left = '';
+  popperStyles[transformProp] = '';
+
+  var boundaries = getBoundaries(data.instance.popper, data.instance.reference, options.padding, boundariesElement, data.positionFixed);
+
+  // NOTE: DOM access here
+  // restores the original style properties after the offsets have been computed
+  popperStyles.top = top;
+  popperStyles.left = left;
+  popperStyles[transformProp] = transform;
+
+>>>>>>> cb19e7a4778c6d54f726bdeb9ee986a4a2b3fa86
   options.boundaries = boundaries;
 
   var order = options.priority;
