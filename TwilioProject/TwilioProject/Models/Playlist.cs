@@ -14,6 +14,6 @@ namespace TwilioProject.Models
         public int SongLength { get; set; }
         public string YoutubeID { get; set; }
         public string Title { get; set; }
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }
