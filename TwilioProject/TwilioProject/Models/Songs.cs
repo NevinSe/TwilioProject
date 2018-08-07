@@ -12,19 +12,12 @@ namespace TwilioProject.Models
         [Key]
         public int SongID { get; set; }
         [Required]
-        [Display(Name = "Song Name")]
-        public string SongName { get; set; }
+        [Display(Name = "Song Title")]
+        public string Title { get; set; }
         [Required]
-        [Display(Name = "Artist")]
-        public string Artist { get; set; }
-        [Required]
-        [Display(Name = "Song Lenght")]
+        [Display(Name = "Song Length")]
         public int SongLength { get; set; }
-        [Required]
-        [Display(Name = "Genere")]
-        public string Genre { get; set; }
-        [Display(Name = "Album Cover Art")]
-        public string AlbumCoverIMG { get; set; }
+        public string YoutubeId { get; set; }
         [ForeignKey("Events")]
         public int EventID { get; set; }
         public Events Events { get; set; }

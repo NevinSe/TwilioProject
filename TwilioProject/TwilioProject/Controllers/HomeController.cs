@@ -13,7 +13,6 @@ namespace TwilioProject.Controllers
         {
             //Twilio twilio = new Twilio();
             YoutubeSearch youtubeSearch = new YoutubeSearch();
-            await youtubeSearch.Run("korn");
             return View();
         }
 

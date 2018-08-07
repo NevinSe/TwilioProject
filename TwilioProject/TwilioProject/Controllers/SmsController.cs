@@ -16,27 +16,30 @@ namespace TwilioProject.Controllers
         private Regex songSelection = new Regex(@"[1-5]");
         private Regex banUser = new Regex(@"ban [(]?\d{3}[)]?[-]?\s?\d{3}\s?[-]?\d{4}");
         private YoutubeSearch search = new YoutubeSearch();
+        private ApplicationUser applicationUser = new ApplicationUser();
 
         [HttpPost]
         public async void Index()
         {
             var requestPhoneNumber = Request.Form["From"];
             var requestBody = Request.Form["Body"];
-
             // Event Code
             if (regex.IsMatch(requestBody))
             {
                 EventCode(requestPhoneNumber, requestBody);
             }
             // Ban User
-            else if(banUser.IsMatch(requestBody.ToLower()) && PhoneParse(requestPhoneNumber) == db.EventUsers.Where(e => e.PhoneNumber == PhoneParse(requestPhoneNumber) && e.UserID == db.Events.Where(ev => ev.HostID == e.UserID).Single().HostID && db.Events.Where(p => p.HostID == e.UserID).Single().IsHosted).Single().PhoneNumber)
+            else if(banUser.IsMatch(requestBody.ToLower()) && Phone.Parse(requestPhoneNumber) == db.EventUsers.Where(e => e.PhoneNumber == Phone.Parse(requestPhoneNumber) && e.UserID == db.Events.Where(ev => ev.HostID == e.UserID).Single().HostID && db.Events.Where(p => p.HostID == e.UserID).Single().IsHosted).Single().PhoneNumber)
             {
-                // TODO: Ban User
+                db.EventUsers.Where(p => p.PhoneNumber == banUser.ToString()).Single().isBanned = true;
+                db.SaveChanges();
             }
             // Ban Current Song
-            else if(requestBody.ToLower() == "ban song" && PhoneParse(requestPhoneNumber) == db.EventUsers.Where(e => e.PhoneNumber == PhoneParse(requestPhoneNumber) && e.UserID == db.Events.Where(ev => ev.HostID == e.UserID).Single().HostID && db.Events.Where(p => p.HostID == e.UserID).Single().IsHosted).Single().PhoneNumber)
+            else if(requestBody.ToLower() == "ban song" && Phone.Parse(requestPhoneNumber) == db.EventUsers.Where(e => e.PhoneNumber == Phone.Parse(requestPhoneNumber) && e.UserID == db.Events.Where(ev => ev.HostID == e.UserID).Single().HostID && db.Events.Where(p => p.HostID == e.UserID).Single().IsHosted).Single().PhoneNumber)
             {
-                // TODO: Ban Current Song
+                var currentSong = db.Playlist.First();
+                db.Songs.Where(s => s.YoutubeId == currentSong.YoutubeID).Single().IsBanned = true;
+                db.SaveChanges();
             }
             // Skip Song
             else if(requestBody.ToLower() == "skip")
@@ -46,10 +49,10 @@ namespace TwilioProject.Controllers
             // Song Selection
             else if (songSelection.IsMatch(requestBody))
             {
-                SelectSong(requestBody, PhoneParse(requestPhoneNumber));
+                SelectSong(requestBody, Phone.Parse(requestPhoneNumber));
             }
             // Help Host
-            else if (requestBody.ToLower() == "help" && PhoneParse(requestPhoneNumber) == db.EventUsers.Where(e => e.PhoneNumber == PhoneParse(requestPhoneNumber) && e.UserID == db.Events.Where(ev => ev.HostID == e.UserID).Single().HostID && db.Events.Where(p => p.HostID == e.UserID).Single().IsHosted).Single().PhoneNumber)
+            else if (requestBody.ToLower() == "help" && Phone.Parse(requestPhoneNumber) == db.EventUsers.Where(e => e.PhoneNumber == Phone.Parse(requestPhoneNumber) && e.UserID == db.Events.Where(ev => ev.HostID == e.UserID).Single().HostID && db.Events.Where(p => p.HostID == e.UserID).Single().IsHosted).Single().PhoneNumber)
             {
                 // TODO: Help message
             }
@@ -59,7 +62,7 @@ namespace TwilioProject.Controllers
                 // TODO: Help Message For Users
             }
             // Queue
-            else if(requestBody.ToLower() == "queue" && db.Events.Where(p => p.EventID == (db.EventUsers.Where(e => e.PhoneNumber == PhoneParse(requestPhoneNumber)).Single().EventID)).Single().IsHosted == true)
+            else if(requestBody.ToLower() == "queue" && db.Events.Where(p => p.EventID == (db.EventUsers.Where(e => e.PhoneNumber == Phone.Parse(requestPhoneNumber)).Single().EventID)).Single().IsHosted == true)
             {
                 var videos = db.Playlist;
                 var messageString = "";
@@ -93,7 +96,7 @@ namespace TwilioProject.Controllers
             {
                 var videos = await search.SearchByTitle(requestBody);
                 VideosToMessage(videos);
-                IdAndTitleToDB(videos, PhoneParse(requestPhoneNumber));
+                IdAndTitleToDB(videos, Phone.Parse(requestPhoneNumber));
             }
         }
         public void VideosToMessage(List<string[]> videos)
@@ -106,7 +109,7 @@ namespace TwilioProject.Controllers
             MessagingResponse message = new MessagingResponse();
             message.Message(titles);
         }
-        public void IdAndTitleToDB(List<string[]> videos, int phoneNumber)
+        public void IdAndTitleToDB(List<string[]> videos, string phoneNumber)
         {
             var person = db.EventUsers.Where(e => e.PhoneNumber == phoneNumber).Single();
             person.Id1 = videos[0][1];
@@ -121,7 +124,7 @@ namespace TwilioProject.Controllers
             person.Title1 = videos[4][0];
             db.SaveChanges();
         }
-        public void SelectSong(string songNumber, int phoneNumber)
+        public void SelectSong(string songNumber, string phoneNumber)
         {
             var person = db.EventUsers.Where(e => e.PhoneNumber == phoneNumber).Single();
             Playlist playlist = new Playlist();
@@ -160,18 +163,9 @@ namespace TwilioProject.Controllers
             message.Message("Your song has been added to the queue.");
             SendMessage(message);
         }
-        public int PhoneParse(string number)
-        {
-            string phoneNumber = "";
-            for (int i = 2; i < number.Length; i++)
-            {
-                phoneNumber += number[i];
-            }
-            return int.Parse(phoneNumber);
-        }
         public void EventCode(string number, string message)
         {
-            int userPhone = PhoneParse(number);
+            string userPhone = Phone.Parse(number);
             
             // Find User by Number
             var user = db.EventUsers.Where(u => u.PhoneNumber == userPhone).SingleOrDefault();
@@ -195,8 +189,8 @@ namespace TwilioProject.Controllers
                     EventUsers newUser = new EventUsers
                     {
                         PhoneNumber = userPhone,
-                        EventID = myEvent.EventID,
-                        NumbOfMessages = 1
+                        EventID = myEvent.EventID
+                        
                     };
                     db.EventUsers.Add(newUser);
                     db.SaveChanges();
@@ -222,7 +216,7 @@ namespace TwilioProject.Controllers
                 // Event Hosted and Code Valid, Return User
                 else
                 {
-                    user.NumbOfMessages = 1;
+                    
                     user.EventID = myEvent.EventID;
                     db.SaveChanges();
                     MessagingResponse welcomeToEventMessage = new MessagingResponse();
