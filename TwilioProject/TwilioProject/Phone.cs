@@ -13,7 +13,8 @@ namespace TwilioProject
         static Regex phone3 = new Regex(@"[+]1\d{3}[-]\d{3}[-]\d{4}");
         static Regex phone4 = new Regex(@"[+]1[(]\d{3}[)]\d{3}[-]\d{4}");
         static Regex phone5 = new Regex(@"[+]1[(]\d{3}[)][-]\d{3}[-]\d{4}");
-
+        static Regex phone6 = new Regex(@"[+]\d{10}");
+        static Regex phone7 = new Regex(@"\d{10}");
 
 
         public static string Parse(string phoneNumber)
@@ -75,9 +76,25 @@ namespace TwilioProject
                 }
                 return temp;
             }
+            else if(phone6.IsMatch(phoneNumber))
+            {
+                string temp = "";
+                for (int i = 0; i < phoneNumber.Length; i++)
+                {
+                    if (i != 0)
+                    {
+                        temp += phoneNumber[i];
+                    }
+                }
+                return temp;
+            }
+            else if (phone7.IsMatch(phoneNumber))
+            {
+                return phoneNumber;
+            }
             else
             {
-                return "Invalid Input";
+                return phoneNumber;
             }
         }
     }

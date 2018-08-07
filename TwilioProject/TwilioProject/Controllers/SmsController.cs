@@ -24,6 +24,7 @@ namespace TwilioProject.Controllers
         {
             var requestPhoneNumber = Request.Form["From"];
             var requestBody = Request.Form["Body"];
+            var hostPhoneNumber = db.EventUsers.Where(e => e.PhoneNumber == Phone.Parse(requestPhoneNumber) && e.UserID == db.Events.Where(ev => ev.HostID == e.UserID).Single().HostID && db.Events.Where(p => p.HostID == e.UserID).Single().IsHosted).Single().PhoneNumber;
             // Event Code
             if (regex.IsMatch(requestBody))
             {
@@ -34,12 +35,10 @@ namespace TwilioProject.Controllers
             {
                 var currentSong = db.Playlist.First();
                 var whoPlayed = db.EventUsers.Where(e => e.PhoneNumber == currentSong.PhoneNumber).Single().PhoneNumber;
-                MessagingResponse message = new MessagingResponse();
-                message.Message(whoPlayed);
-                SendMessage(message);
+                SendMessage(whoPlayed);
             }
             // Change Volume
-            else if(setVol.IsMatch(requestBody.ToLower()) && Phone.Parse(requestPhoneNumber) == db.EventUsers.Where(e => e.PhoneNumber == Phone.Parse(requestPhoneNumber) && e.UserID == db.Events.Where(ev => ev.HostID == e.UserID).Single().HostID && db.Events.Where(p => p.HostID == e.UserID).Single().IsHosted).Single().PhoneNumber)
+            else if(setVol.IsMatch(requestBody.ToLower()) && Phone.Parse(requestPhoneNumber) == hostPhoneNumber)
             {
                 var volumeLevelStr = "";
                 foreach(char character in requestBody)
@@ -53,22 +52,40 @@ namespace TwilioProject.Controllers
                 if(int.Parse(volumeLevelStr) <= 100)
                 {
                     volume = int.Parse(volumeLevelStr);
+                    SendMessage($"Volume has been set to {volumeLevelStr}");
                 }
                 else
                 {
-                    MessagingResponse message = new MessagingResponse();
-                    message.Message("Volume must be between 0 and 100.");
-                    SendMessage(message);
+                    SendMessage("Volume must be between 0 and 100.");
                 }
             }
             // Ban User
-            else if(banUser.IsMatch(requestBody.ToLower()) && Phone.Parse(requestPhoneNumber) == db.EventUsers.Where(e => e.PhoneNumber == Phone.Parse(requestPhoneNumber) && e.UserID == db.Events.Where(ev => ev.HostID == e.UserID).Single().HostID && db.Events.Where(p => p.HostID == e.UserID).Single().IsHosted).Single().PhoneNumber)
+            else if(banUser.IsMatch(requestBody.ToLower()) && Phone.Parse(requestPhoneNumber) == hostPhoneNumber)
             {
-                db.EventUsers.Where(p => p.PhoneNumber == banUser.ToString()).Single().isBanned = true;
-                db.SaveChanges();
+                var tempNumber = "";
+                foreach(char character in requestBody)
+                {
+                    try
+                    {
+                        tempNumber += int.Parse(character.ToString()).ToString();
+                    }
+                    catch (System.Exception) { }
+                }
+                var phoneNumber = Phone.Parse(tempNumber);
+                var bannedUser = db.EventUsers.Where(e => e.PhoneNumber == phoneNumber).SingleOrDefault();
+                if(bannedUser != default(EventUsers))
+                {
+                    db.EventUsers.Where(p => p.PhoneNumber == bannedUser.PhoneNumber).Single().isBanned = true;
+                    db.SaveChanges();
+                    SendMessage($"{bannedUser.PhoneNumber} Has been banned from adding songs to the queue.");
+                }
+                else
+                {
+                    SendMessage("User not found.");
+                }
             }
             // Ban Current Song
-            else if(requestBody.ToLower() == "ban song" && Phone.Parse(requestPhoneNumber) == db.EventUsers.Where(e => e.PhoneNumber == Phone.Parse(requestPhoneNumber) && e.UserID == db.Events.Where(ev => ev.HostID == e.UserID).Single().HostID && db.Events.Where(p => p.HostID == e.UserID).Single().IsHosted).Single().PhoneNumber)
+            else if(requestBody.ToLower() == "ban song" && Phone.Parse(requestPhoneNumber) == hostPhoneNumber)
             {
                 var currentSong = db.Playlist.First();
                 db.Songs.Where(s => s.YoutubeId == currentSong.YoutubeID).Single().IsBanned = true;
@@ -86,19 +103,17 @@ namespace TwilioProject.Controllers
                 SelectSong(requestBody, Phone.Parse(requestPhoneNumber));
             }
             // Help Host
-            else if (requestBody.ToLower() == "help" && Phone.Parse(requestPhoneNumber) == db.EventUsers.Where(e => e.PhoneNumber == Phone.Parse(requestPhoneNumber) && e.UserID == db.Events.Where(ev => ev.HostID == e.UserID).Single().HostID && db.Events.Where(p => p.HostID == e.UserID).Single().IsHosted).Single().PhoneNumber)
+            else if (requestBody.ToLower() == "help" && Phone.Parse(requestPhoneNumber) == hostPhoneNumber)
             {
                 string hostHelpString = "Event Host Commands:\r\nBan User => 'ban (phone number)'\r\nBan Current Song => 'ban song'\r\n" +
                     "Skip Current Song => 'skip'\r\nSet The Music Volume => 'set volume (percent)'" +
                     "Who Is Playing The Current Song => 'who played this'\r\n" +
                     "Get A List Of The Song Queue => 'queue'\r\nGet A List Of 'Hot' Songs => 'hot'\r\n" +
                     "Like A Song => 'like'\r\nDislike A Song => 'song'\r\nRequest A Song To Be Added => 'songtitle'";
-                MessagingResponse message = new MessagingResponse();
-                message.Message(hostHelpString);
-                SendMessage(message);
+                SendMessage(hostHelpString);
             }
             // Help User
-            else if (requestBody.ToLower() == "help" && !(Phone.Parse(requestPhoneNumber) == db.EventUsers.Where(e => e.PhoneNumber == Phone.Parse(requestPhoneNumber) && e.UserID == db.Events.Where(ev => ev.HostID == e.UserID).Single().HostID && db.Events.Where(p => p.HostID == e.UserID).Single().IsHosted).Single().PhoneNumber))
+            else if (requestBody.ToLower() == "help" && Phone.Parse(requestPhoneNumber) != hostPhoneNumber)
             {
                 string userHelpString = "Event User Commands:\r\n" +
                     "Who Is Playing The Current Song => 'who played this'\r\n" +
@@ -106,9 +121,7 @@ namespace TwilioProject.Controllers
                     "Get A List Of 'Hot' Songs => 'hot'\r\n" +
                     "Like A Song => 'like'\r\nDislike A Song => 'song'\r\n" +
                     "Request A Song To Be Added => 'songtitle'";
-                MessagingResponse message = new MessagingResponse();
-                message.Message(userHelpString);
-                SendMessage(message);
+                SendMessage(userHelpString);
             }
             // Queue
             else if(requestBody.ToLower() == "queue" && db.Events.Where(p => p.EventID == (db.EventUsers.Where(e => e.PhoneNumber == Phone.Parse(requestPhoneNumber)).Single().EventID)).Single().IsHosted == true)
@@ -121,9 +134,7 @@ namespace TwilioProject.Controllers
                     messageString += $"{counter}.) {video.Title}\r\n";
                     counter++;
                 }
-                MessagingResponse message = new MessagingResponse();
-                message.Message();
-                SendMessage(message);
+                SendMessage(messageString);
             }
             // Hot Songs
             else if(requestBody.ToLower() == "hot")
@@ -149,9 +160,7 @@ namespace TwilioProject.Controllers
                     messageString += $"{counter}.) {songTitle}\r\n";
                     counter++;
                 }
-                MessagingResponse message = new MessagingResponse();
-                message.Message(messageString);
-                SendMessage(message);
+                SendMessage(messageString);
             }
             // Like
             else if(requestBody.ToLower() == "like")
@@ -239,9 +248,7 @@ namespace TwilioProject.Controllers
                     break;
             }
             db.SaveChanges();
-            MessagingResponse message = new MessagingResponse();
-            message.Message("Your song has been added to the queue.");
-            SendMessage(message);
+            SendMessage("Your song has been added to the queue.");
         }
         public void EventCode(string number, string message)
         {
@@ -258,9 +265,7 @@ namespace TwilioProject.Controllers
                 // Event Not Hosted or Wrong Code
                 if (myEvent == default(Events))
                 {
-                    MessagingResponse returnMessage = new MessagingResponse();
-                    returnMessage.Message("Sorry, The Event You're Looking For Is Either Not Currently Hosted Or The Event Code Entered Is Incorrect.");
-                    SendMessage(returnMessage);
+                    SendMessage("Sorry, The Event You're Looking For Is Either Not Currently Hosted Or The Event Code Entered Is Incorrect.");
                 }
 
                 // Event Hosted and Code is Valid, New User
@@ -274,9 +279,7 @@ namespace TwilioProject.Controllers
                     };
                     db.EventUsers.Add(newUser);
                     db.SaveChanges();
-                    MessagingResponse welcomeToEventMessage = new MessagingResponse();
-                    welcomeToEventMessage.Message($"You have been added to the event, {myEvent.EventName}.");
-                    SendMessage(welcomeToEventMessage);
+                    SendMessage($"You have been added to the event, {myEvent.EventName}.");
                 }
             }
 
@@ -288,9 +291,7 @@ namespace TwilioProject.Controllers
                 // EventHosted or Wrong Code
                 if(myEvent == default(Events))
                 {
-                    MessagingResponse returnMessage = new MessagingResponse();
-                    returnMessage.Message("Sorry, The Event You're Looking For Is Either Not Currently Hosted Or The Event Code Entered Is Incorrect.");
-                    SendMessage(returnMessage);
+                    SendMessage("Sorry, The Event You're Looking For Is Either Not Currently Hosted Or The Event Code Entered Is Incorrect.");
                 }
 
                 // Event Hosted and Code Valid, Return User
@@ -299,21 +300,19 @@ namespace TwilioProject.Controllers
                     
                     user.EventID = myEvent.EventID;
                     db.SaveChanges();
-                    MessagingResponse welcomeToEventMessage = new MessagingResponse();
-                    welcomeToEventMessage.Message($"You have been added to the event, {myEvent.EventName}.");
-                    SendMessage(welcomeToEventMessage);
+                    SendMessage($"You have been added to the event, {myEvent.EventName}.");
                 }
             }
             else
             {
-                MessagingResponse errorMessage = new MessagingResponse();
-                errorMessage.Message("Invalid Input. Please try again, or Type 'help' for more information.");
-                SendMessage(errorMessage);
+                SendMessage("Invalid Input. Please try again, or Type 'help' for more information.");
             }
         }
-        public ActionResult SendMessage(MessagingResponse message)
+        public ActionResult SendMessage(string message)
         {
-            return TwiML(message);
+            MessagingResponse Message = new MessagingResponse();
+            Message.Message(message);
+            return TwiML(Message);
         }
     }
 }
