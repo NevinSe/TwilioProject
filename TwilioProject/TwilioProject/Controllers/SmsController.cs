@@ -15,7 +15,9 @@ namespace TwilioProject.Controllers
         private Regex regex = new Regex(@"[A-Z0-9a-z]{5}");
         private Regex songSelection = new Regex(@"[1-5]");
         private Regex banUser = new Regex(@"ban [(]?\d{3}[)]?[-]?\s?\d{3}\s?[-]?\d{4}");
+        private Regex setVol = new Regex(@"set volume \d?\d?\d[%]?");
         private YoutubeSearch search = new YoutubeSearch();
+        public static int volume = 50;
 
         [HttpPost]
         public async void Index()
@@ -35,6 +37,29 @@ namespace TwilioProject.Controllers
                 MessagingResponse message = new MessagingResponse();
                 message.Message(whoPlayed);
                 SendMessage(message);
+            }
+            // Change Volume
+            else if(setVol.IsMatch(requestBody.ToLower()) && Phone.Parse(requestPhoneNumber) == db.EventUsers.Where(e => e.PhoneNumber == Phone.Parse(requestPhoneNumber) && e.UserID == db.Events.Where(ev => ev.HostID == e.UserID).Single().HostID && db.Events.Where(p => p.HostID == e.UserID).Single().IsHosted).Single().PhoneNumber)
+            {
+                var volumeLevelStr = "";
+                foreach(char character in requestBody)
+                {
+                    try
+                    {
+                        volumeLevelStr += int.Parse(character.ToString()).ToString();
+                    }
+                    catch (System.Exception){}
+                }
+                if(int.Parse(volumeLevelStr) <= 100)
+                {
+                    volume = int.Parse(volumeLevelStr);
+                }
+                else
+                {
+                    MessagingResponse message = new MessagingResponse();
+                    message.Message("Volume must be between 0 and 100.");
+                    SendMessage(message);
+                }
             }
             // Ban User
             else if(banUser.IsMatch(requestBody.ToLower()) && Phone.Parse(requestPhoneNumber) == db.EventUsers.Where(e => e.PhoneNumber == Phone.Parse(requestPhoneNumber) && e.UserID == db.Events.Where(ev => ev.HostID == e.UserID).Single().HostID && db.Events.Where(p => p.HostID == e.UserID).Single().IsHosted).Single().PhoneNumber)
@@ -64,7 +89,8 @@ namespace TwilioProject.Controllers
             else if (requestBody.ToLower() == "help" && Phone.Parse(requestPhoneNumber) == db.EventUsers.Where(e => e.PhoneNumber == Phone.Parse(requestPhoneNumber) && e.UserID == db.Events.Where(ev => ev.HostID == e.UserID).Single().HostID && db.Events.Where(p => p.HostID == e.UserID).Single().IsHosted).Single().PhoneNumber)
             {
                 string hostHelpString = "Event Host Commands:\r\nBan User => 'ban (phone number)'\r\nBan Current Song => 'ban song'\r\n" +
-                    "Skip Current Song => 'skip'\r\nWho Is Playing The Current Song => 'who played this'\r\n" +
+                    "Skip Current Song => 'skip'\r\nSet The Music Volume => 'set volume (percent)'" +
+                    "Who Is Playing The Current Song => 'who played this'\r\n" +
                     "Get A List Of The Song Queue => 'queue'\r\nGet A List Of 'Hot' Songs => 'hot'\r\n" +
                     "Like A Song => 'like'\r\nDislike A Song => 'song'\r\nRequest A Song To Be Added => 'songtitle'";
                 MessagingResponse message = new MessagingResponse();
