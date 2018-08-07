@@ -370,10 +370,12 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+<<<<<<< HEAD
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\EventUsers\Host\" />
+=======
     <Content Include="Views\EventUsers\CreateEvent.cshtml" />
     <Content Include="Views\EventUsers\QueueList.cshtml" />
     <Content Include="Views\EventUsers\AttendeeIndex.cshtml" />
