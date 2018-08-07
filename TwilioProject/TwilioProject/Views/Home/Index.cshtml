@@ -1,89 +1,88 @@
 ﻿
 <h2>View</h2>
 
+@*<div id="video-placeholder"></div>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+    var player;
+
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('video-placeholder', {
+            width: 600,
+            height: 400,
+            videoId: 'Xa0Q0J5tOP0',
+            playerVars: {
+                color: 'white',
+                playlist: 'taJ60kskkns,FG0fTKAqZ5g'
+            },
+            events: {
+                onReady: initialize,
+                onStateChange: onStateVideoChange
+            }
+        });
+    }
+    function initialize() {
+        event.target.setVolume(100);
+        event.target.playVideo();
+        
+        
+    }
+    function onStateVideoChange() {
+    }
+
+</script>*@
 <div>
-    <iframe id="existing-iframe-example"
-            width="640" height="360"
-            src="https://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1"
-            frameborder="0"
-            style="border: solid 4px #37474F"></iframe>
-
-<<<<<<< HEAD
-    <script type="text/javascript">
-        var tag = document.createElement('script');
-        tag.id = 'iframe-demo';
-        tag.src = 'https://www.youtube.com/iframe_api';
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-<<<<<<< HEAD
-=======
-<div class="modal fade" id="modalHostLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header text-center">
-                <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body mx-3">
-                <div class="md-form mb-5">
-                    <i class="fa fa-envelope prefix grey-text"></i>
-                    <input type="email" id="defaultForm-email" class="form-control validate">
-                    <label data-error="wrong" data-success="right" for="defaultForm-email">Your Email</label>
-                </div>
-                <div class="md-form mb-4">
-                    <i class="fa fa-lock prefix grey-text"></i>
-                    <input type="password" id="defaultForm-pass" class="form-control validate">
-                    <label data-error="wrong" data-success="right" for="defaultForm-pass">Your Password</label>
-                </div>
-                
-            </div>
-            <div class="modal-footer d-flex justify-content-center">
-                <button class="btn btn-default">Login</button>
-                <a href="#" class="btn alert-success" onclick="location.href='@Url.Action("Register", "Account")'">Register</a>
-            </div>
-        </div>
-    </div>
-</div>
->>>>>>> bbd256818f09c9a1992a1c9a272546b9d6cc34d8
-=======
-
->>>>>>> 11cc766fc0bdfcaa082b978bef5fa43a2dbc9cfa
-
-        var player;
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('existing-iframe-example', {
-                events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange
+        <iframe id="existing-iframe-example"
+                width="640" height="360"
+                src= @ViewBag.Video;
+                frameborder="0"
+                style="border: solid 4px #37474F"></iframe>
+        <script type="text/javascript">
+            var tag = document.createElement('script');
+            tag.id = 'iframe-demo';
+            tag.src = 'https://www.youtube.com/iframe_api';
+            var firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+            var player;
+            function onYouTubeIframeAPIReady() {
+                player = new YT.Player('existing-iframe-example', {
+                    width: 600,
+                    height: 400,
+                    videoId: 'taJ60kskkns',
+                    events: {
+                        'onReady': onPlayerReady,
+                        'onStateChange': onPlayerStateChange
+                    }
+                });
+            }
+            function onPlayerReady(event) {
+                document.getElementById('existing-iframe-example').style.borderColor = '#FF6D00';
+                event.target.unMute();
+                event.target.setVolume(100);
+                event.target.playVideo();
+            }
+            function changeBorderColor(playerStatus) {
+                var color;
+                if (playerStatus == -1) {
+                    color = "#37474F"; // unstarted = gray
+                } else if (playerStatus == 0) {
+                    color = "#FFFF00"; // ended = yellow
+                } else if (playerStatus == 1) {
+                    color = "#33691E"; // playing = green
+                } else if (playerStatus == 2) {
+                    color = "#DD2C00"; // paused = red
+                } else if (playerStatus == 3) {
+                    color = "#AA00FF"; // buffering = purple
+                } else if (playerStatus == 5) {
+                    color = "#FF6DOO"; // video cued = orange
                 }
-            });
-        }
-        function onPlayerReady(event) {
-            document.getElementById('existing-iframe-example').style.borderColor = '#FF6D00';
-        }
-        function changeBorderColor(playerStatus) {
-            var color;
-            if (playerStatus == -1) {
-                color = "#37474F"; // unstarted = gray
-            } else if (playerStatus == 0) {
-                color = "#FFFF00"; // ended = yellow
-            } else if (playerStatus == 1) {
-                color = "#33691E"; // playing = green
-            } else if (playerStatus == 2) {
-                color = "#DD2C00"; // paused = red
-            } else if (playerStatus == 3) {
-                color = "#AA00FF"; // buffering = purple
-            } else if (playerStatus == 5) {
-                color = "#FF6DOO"; // video cued = orange
+                if (color) {
+                    document.getElementById('existing-iframe-example').style.borderColor = color;
+                }
             }
-            if (color) {
-                document.getElementById('existing-iframe-example').style.borderColor = color;
+            function onPlayerStateChange(event) {
+                changeBorderColor(event.data);
             }
-        }
-        function onPlayerStateChange(event) {
-            changeBorderColor(event.data);
-        }
-    </script>
-</div>
+        </script>
+    </div>
