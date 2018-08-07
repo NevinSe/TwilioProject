@@ -361,7 +361,6 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\EventUsers\IndexHost.cshtml" />
-    <Content Include="Views\Host\Index.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
     <Content Include="Scripts\umd\popper-utils.min.js.map" />
@@ -375,6 +374,14 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\EventUsers\Host\" />
+    <Content Include="Views\EventUsers\CreateEvent.cshtml" />
+    <Content Include="Views\EventUsers\QueueList.cshtml" />
+    <Content Include="Views\EventUsers\AttendeeIndex.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="obj\Debug\TempPE\" />
+>>>>>>> 9ee7e8eaab00f21e9c2ea7279912cd3b97d6b3f2
     <Folder Include="Views\Sms\" />
   </ItemGroup>
   <ItemGroup>
