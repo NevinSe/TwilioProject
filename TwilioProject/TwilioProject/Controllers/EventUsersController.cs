@@ -21,5 +21,9 @@ namespace TwilioProject.Controllers
             ViewBag.sudo = new SelectList(testString);
             return View();
         }
+        public ActionResult AttendeeIndex()
+        {
+            return View();
+        }
     }
 }
