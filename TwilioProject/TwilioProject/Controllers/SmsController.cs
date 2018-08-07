@@ -16,7 +16,6 @@ namespace TwilioProject.Controllers
         private Regex songSelection = new Regex(@"[1-5]");
         private Regex banUser = new Regex(@"ban [(]?\d{3}[)]?[-]?\s?\d{3}\s?[-]?\d{4}");
         private YoutubeSearch search = new YoutubeSearch();
-        private ApplicationUser applicationUser = new ApplicationUser();
 
         [HttpPost]
         public async void Index()
@@ -31,17 +30,8 @@ namespace TwilioProject.Controllers
             // Get Phone Number Of Current Song
             else if(requestBody.ToLower() == "who played this")
             {
-
-
-
-
-                // TODO: REMOVE .TOSTRING() ON LINE 44
-
-
-
-
                 var currentSong = db.Playlist.First();
-                var whoPlayed = db.EventUsers.Where(e => e.PhoneNumber == currentSong.PhoneNumber.ToString()).Single().PhoneNumber;
+                var whoPlayed = db.EventUsers.Where(e => e.PhoneNumber == currentSong.PhoneNumber).Single().PhoneNumber;
                 MessagingResponse message = new MessagingResponse();
                 message.Message(whoPlayed);
                 SendMessage(message);
