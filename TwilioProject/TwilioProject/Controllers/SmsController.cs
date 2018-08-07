@@ -184,9 +184,9 @@ namespace TwilioProject.Controllers
                 IdAndTitleToDB(videos, Phone.Parse(requestPhoneNumber));
             }
         }
-        public void SkipSong()
+        public ActionResult SkipSong()
         {
-            // TODO: Skip Song
+            return RedirectToAction("Index", "Home");
         }
         public void VideosToMessage(List<string[]> videos)
         {
