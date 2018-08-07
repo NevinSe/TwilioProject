@@ -8,7 +8,6 @@ namespace TwilioProject.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
         {
             //Twilio twilio = new Twilio();
             return View();

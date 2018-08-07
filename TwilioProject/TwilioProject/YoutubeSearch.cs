@@ -13,7 +13,7 @@ namespace TwilioProject
         {
             try
             {
-                new YoutubeSearch().Run("korn").Wait();
+                new YoutubeSearch().SearchByTitle("korn").Wait();
             }
             catch (AggregateException ex)
             {
@@ -24,7 +24,7 @@ namespace TwilioProject
             }
         }
 
-        public async Task<List<string>> Run(string searchTerm)
+        public async Task<List<string[]>> SearchByTitle(string searchTerm)
         {
             var youtubeService = new YouTubeService(new BaseClientService.Initializer()
             {
@@ -34,15 +34,18 @@ namespace TwilioProject
 
             var searchListRequest = youtubeService.Search.List("snippet");
             searchListRequest.Q = searchTerm;
-            searchListRequest.MaxResults = 10;
+            searchListRequest.MaxResults = 5;
             
             var searchListResponse = await searchListRequest.ExecuteAsync();
 
-            List<string> videos = new List<string>();
+            List<string[]> videos = new List<string[]>();
             
             foreach (var searchResult in searchListResponse.Items)
             {
-                videos.Add(String.Format("{0} ({1})", searchResult.Snippet.Title, searchResult.Id.VideoId));
+                var temp = new string[2];
+                temp[0] = searchResult.Snippet.Title;
+                temp[1] = searchResult.Id.VideoId;
+                videos.Add(temp);
             }
             return videos;
         }
