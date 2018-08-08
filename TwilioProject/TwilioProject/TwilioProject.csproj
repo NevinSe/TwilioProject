@@ -264,6 +264,17 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Keys.cs" />
+<<<<<<< HEAD
+=======
+    <Compile Include="Migrations\201808081942208_Init.cs" />
+    <Compile Include="Migrations\201808081942208_Init.Designer.cs">
+      <DependentUpon>201808081942208_Init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808082001311_AddedUserRoles.cs" />
+    <Compile Include="Migrations\201808082001311_AddedUserRoles.Designer.cs">
+      <DependentUpon>201808082001311_AddedUserRoles.cs</DependentUpon>
+    </Compile>
+>>>>>>> a8e50e2cbe677c616e8dd2de18a582762931b934
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Events.cs" />
@@ -538,9 +549,16 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\EventUsers\CreateEvent.cshtml" />
     <Content Include="Views\EventUsers\QueueList.cshtml" />
+    <Content Include="Views\EventUsers\PopularList.cshtml" />
+    <Content Include="Views\EventUsers\ManageBannedSongs.cshtml" />
     <Content Include="Views\EventUsers\AttendeeIndex.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\Sms\Index.cshtml" />
     <Content Include="Views\Sms\IndexTest.cshtml" />
+=======
+    <Content Include="Views\Home\Landing.cshtml" />
+    <Content Include="Views\Account\_PartialRegister.cshtml" />
+>>>>>>> a8e50e2cbe677c616e8dd2de18a582762931b934
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -557,6 +575,17 @@
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
+<<<<<<< HEAD
+=======
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201808081942208_Init.resx">
+      <DependentUpon>201808081942208_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808082001311_AddedUserRoles.resx">
+      <DependentUpon>201808082001311_AddedUserRoles.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+>>>>>>> a8e50e2cbe677c616e8dd2de18a582762931b934
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

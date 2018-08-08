@@ -38,16 +38,28 @@
     </div>
 
     <div class="row whitespace-remove">
-        <div class=" whitespace-remove; bg-primary">
-            <div class="bg-primary p-4 whitespace-remove">
+        <div class=" whitespace-remove">
+            <div class="whitespace-remove text-primary">
                 <center>
-                    <h2>Current Queue</h2>
+                    <h2>Party Queue</h2>
                 </center>
             </div>
         </div>
     </div>
-
-
-    @*<a href="#" class="btn btn-primary btn-block btn-lg" role="button" aria-disabled="false" data-toggle="modal" data-target="#modalHostLoginForm">Host</a>
-        <a href="#" class="btn btn-info btn-block btn-lg" role="button" aria-disabled="true" data-toggle="modal" data-target="#modalAttendeeLoginForm">Attendee</a>*@
+    <div class="container bg-primary">
+        <div class="row">
+            <div class="col-md-6 pull-left">
+                <h4 class="d-flex"id="songTitle">ViewBag.Title</h4>
+            </div>
+            <div class="col-md-3 pull-right">
+                <button class="btn btn-sm likeOrDislikeButtons">Dislike</button>
+            </div>
+            <div class="col-md-3 pull-right">
+                <button class="btn btn-sm likeOrDislikeButtons">Like</button>
+            </div>
+        </div>
+    </div>
 </div>
+
+@*<a href="#" class="btn btn-primary btn-block btn-lg" role="button" aria-disabled="false" data-toggle="modal" data-target="#modalHostLoginForm">Host</a>
+    <a href="#" class="btn btn-info btn-block btn-lg" role="button" aria-disabled="true" data-toggle="modal" data-target="#modalAttendeeLoginForm">Attendee</a>*@
