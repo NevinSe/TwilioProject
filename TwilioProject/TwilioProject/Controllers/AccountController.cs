@@ -22,6 +22,11 @@ namespace TwilioProject.Controllers
         {
         }
 
+        public ActionResult _PartialRegister()
+        {
+            return PartialView();
+        }
+
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
             UserManager = userManager;
