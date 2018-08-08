@@ -135,3 +135,22 @@ host-index-container {
     background-color: #F9690E;
     display: block;
 }
+.queueItemContainer {
+    height: 200px;
+    width: 100%;
+    position: relative;
+    background-color: #22313F;
+}
+
+.bottompanel {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    background-color: #22313F;
+    color: #22313F;
+    padding: 0;
+}
+
+#songBar{
+    width: 100%;
+}
