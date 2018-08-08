@@ -1,6 +1,6 @@
-﻿@{
+﻿@*@{
     ViewBag.Title = "IndexHost";
-}
+}*@
 <div class="container whitespace-remove" id="host-index-container">
     <div class="row whitespace-remove" id="hostJumbotron">
         <div class="jumbotron jumbotron-fluid whitespace-remove">
@@ -33,9 +33,9 @@
                 <div class="bg-primary p-4 whitespace-remove">
                     @*<button class="btn btn-primary btn-block btn-lg" type="button">Set Playlist</button>*@
                     <a href="#" class="btn btn-primary btn-block btn-lg" role="button" aria-disabled="false" data-toggle="modal" data-target="#modalSetPlaylistForm">Set Playlist</a>
-                    <button class="btn btn-info btn-block btn-lg" type="button">View Current Que</button>
-                    <button class="btn btn-primary btn-block btn-lg" type="button">View Popular Songs</button>
-                    <button class="btn btn-info btn-block btn-lg" type="button">Manage Banned Songs</button>
+                    @Html.Partial("QueueList")
+                    @Html.Partial("PopularList")
+                    @Html.Partial("ManageBannedSongs")
                 </div>
             </div>
             <nav class="whitespace-remove">
@@ -118,3 +118,4 @@
         </div>
     </div>
 </div>
+

@@ -539,6 +539,8 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\EventUsers\CreateEvent.cshtml" />
     <Content Include="Views\EventUsers\QueueList.cshtml" />
+    <Content Include="Views\EventUsers\PopularList.cshtml" />
+    <Content Include="Views\EventUsers\ManageBannedSongs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
