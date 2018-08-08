@@ -11,7 +11,6 @@ namespace TwilioProject.Models
     {
         [Key]
         public string UserID { get; set; }
-        [Required]
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
         [ForeignKey("Events")]

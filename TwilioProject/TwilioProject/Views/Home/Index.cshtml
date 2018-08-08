@@ -27,9 +27,6 @@
         }
         function onPlayerReady(event) {
             document.getElementById('existing-iframe-example').style.borderColor = '#FF6D00';
-            event.target.unMute();
-            event.target.setVolume(100);
-
         }
         function changeBorderColor(playerStatus) {
             var color;
@@ -51,7 +48,7 @@
             }
         }
         function onPlayerStateChange(event) {
-            changeBorderColor(event.data);
+            //changeBorderColor(event.data);
             if (event.data === 0) {
                 document.location.reload();     
             }
