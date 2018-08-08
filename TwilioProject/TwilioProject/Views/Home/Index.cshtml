@@ -51,8 +51,10 @@
             }
         }
         function onPlayerStateChange(event) {
-            
             changeBorderColor(event.data);
+            if (event.data === 0) {
+                document.location.reload();     
+            }
         }
     </script>
 </div>

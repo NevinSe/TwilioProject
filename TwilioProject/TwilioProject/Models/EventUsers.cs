@@ -15,9 +15,9 @@ namespace TwilioProject.Models
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
         [ForeignKey("Events")]
-        public int EventID { get; set; }
+        public int? EventID { get; set; }
         public Events Events { get; set; }
-        public bool isBanned { get; set; }
+        public bool? isBanned { get; set; }
         public string Id1 { get; set; }
         public string Id2 { get; set; }
         public string Id3 { get; set; }

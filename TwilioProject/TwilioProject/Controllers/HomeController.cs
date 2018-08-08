@@ -13,11 +13,11 @@ namespace TwilioProject.Controllers
         ApplicationDbContext db = new ApplicationDbContext();
         public async Task<ActionResult> Index()
         {
-
-            var video = db.Playlist.First();
-            ViewBag.Video = $"https://www.youtube.com/embed/{video.YoutubeID}?enablejsapi=1";
-            db.Playlist.Remove(video);
-            db.SaveChanges();
+            var video = "6tgAJtvRP70";
+            //var video = db.Playlist.First();
+            ViewBag.Video = $"https://www.youtube.com/embed/{video}?enablejsapi=1";
+            //db.Playlist.Remove(video);
+           // db.SaveChanges();
             return View();
         }
 
