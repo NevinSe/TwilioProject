@@ -122,8 +122,11 @@ host-index-container {
 
     #attendeeJumbotron .jumbotron {
         min-height: 100%;
-        background-color: #22313F;
-        border-radius: 0px;
+        min-width: 100%;
+        background-image: url("https://mir-s3-cdn-cf.behance.net/project_modules/fs/924faf52097223.590463d34792e.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
     }
 
 #songSearchButton {
@@ -142,15 +145,4 @@ host-index-container {
     background-color: #22313F;
 }
 
-.bottompanel {
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-    background-color: #22313F;
-    color: #22313F;
-    padding: 0;
-}
 
-#songBar{
-    width: 100%;
-}
