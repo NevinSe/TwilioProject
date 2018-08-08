@@ -142,28 +142,25 @@ host-index-container {
     background-color: #F9690E;
     display: block;
 }
-.queueItemContainer {
-    height: 100px;
-    width: 100%;
-    position: relative;
-    background-color: #22313F;
-}
 
 .likeOrDislikeButtons {
     color: aliceblue;
     background-color: #F9690E;
     display: block;
-    transform: translate(-50%, -75%);
-    padding: -20px -30px;
-    font-size: -30px;
-
+    transform: translate(0%, 33%);
+}
+#songTitle {
+    color: aliceblue;
+    transform: translate(33%, -25%);
+    text-wrap: normal;
+}
 
 #modalButtonRegister {
     color: red;
     background-color: red;
     max-height: 10px;
     padding: 0px;
-
+}
 
 #makeitwork {
     color: red;
