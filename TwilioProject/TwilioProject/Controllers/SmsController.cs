@@ -41,7 +41,6 @@ namespace TwilioProject.Controllers
                 return SendMessage(whoPlayed);
             }
             // Ban User
-            else if (banUser.IsMatch(requestBody.ToLower())/* && Phone.Parse(requestPhoneNumber) == hostPhoneNumber*/)
             else if(banUser.IsMatch(requestBody.ToLower())/* && Phone.Parse(requestPhoneNumber) == hostPhoneNumber*/)
             {
                 var tempNumber = "";
@@ -51,8 +50,6 @@ namespace TwilioProject.Controllers
                     {
                         tempNumber += int.Parse(character.ToString()).ToString();
                     }
-                    catch (System.Exception)
-                    {
                     catch (System.Exception) {
                         return SendMessage("meh");
                     }
@@ -71,7 +68,6 @@ namespace TwilioProject.Controllers
                 }
             }
             // Ban Current Song
-            else if (requestBody.ToLower() == "ban song" /*&& Phone.Parse(requestPhoneNumber) == hostPhoneNumber*/)
             else if(requestBody.ToLower() == "ban song" /*&& Phone.Parse(requestPhoneNumber) == hostPhoneNumber*/)
             {
                 var currentSong = db.Playlist.First();
@@ -181,19 +177,7 @@ namespace TwilioProject.Controllers
             {
                 isCompleted = true;
             }
-
-            }
-            return SendMessage("debug");
-        }
-        public void Search(string requestBody)
-        {
             
-            videos = search.SearchByTitle(requestBody);
-            if (videos.Count != 0)
-            {
-                isCompleted = true;
-            }
-                
         }
         public ActionResult SkipSong()
         {
