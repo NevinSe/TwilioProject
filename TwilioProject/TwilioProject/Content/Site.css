@@ -144,5 +144,12 @@ host-index-container {
     position: relative;
     background-color: #22313F;
 }
-
+.likeOrDislikeButtons {
+    color: aliceblue;
+    background-color: #F9690E;
+    display: block;
+    transform: translate(-50%, -75%);
+    padding: -20px -30px;
+    font-size: -30px;
+}
 
