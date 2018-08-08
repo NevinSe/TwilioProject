@@ -538,6 +538,8 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\EventUsers\CreateEvent.cshtml" />
     <Content Include="Views\EventUsers\QueueList.cshtml" />
+    <Content Include="Views\EventUsers\PopularList.cshtml" />
+    <Content Include="Views\EventUsers\ManageBannedSongs.cshtml" />
     <Content Include="Views\EventUsers\AttendeeIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -598,4 +600,3 @@
   </Target>
   <Target Name="AfterBuild">
   </Target> -->
-</Project>
