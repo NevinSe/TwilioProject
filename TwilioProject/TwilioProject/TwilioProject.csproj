@@ -264,14 +264,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Keys.cs" />
-    <Compile Include="Migrations\201808081208268_init.cs" />
-    <Compile Include="Migrations\201808081208268_init.Designer.cs">
-      <DependentUpon>201808081208268_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808081236263_nullable.cs" />
-    <Compile Include="Migrations\201808081236263_nullable.Designer.cs">
-      <DependentUpon>201808081236263_nullable.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Events.cs" />
@@ -563,14 +555,6 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201808081208268_init.resx">
-      <DependentUpon>201808081208268_init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808081236263_nullable.resx">
-      <DependentUpon>201808081236263_nullable.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
