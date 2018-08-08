@@ -107,3 +107,31 @@ host-index-container {
     transform: translate(-50%, -50%);
     color: #F9690E;
 }
+#attendeeJumboTronContent {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: aliceblue;
+}
+
+#attendeeJumbotron {
+    height: 50vh;
+    position: relative;
+}
+
+    #attendeeJumbotron .jumbotron {
+        min-height: 100%;
+        background-color: #22313F;
+        border-radius: 0px;
+    }
+
+#songSearchButton {
+    position: absolute;
+    top: 200%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: aliceblue;
+    background-color: #F9690E;
+    display: block;
+}

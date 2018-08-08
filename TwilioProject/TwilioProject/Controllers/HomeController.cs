@@ -4,15 +4,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using TwilioProject.Models;
 
 namespace TwilioProject.Controllers
 {
     public class HomeController : Controller
     {
+        ApplicationDbContext db = new ApplicationDbContext();
         public async Task<ActionResult> Index()
         {
-            //Twilio twilio = new Twilio();
-            YoutubeSearch youtubeSearch = new YoutubeSearch();
+            var video = "6tgAJtvRP70";
+            //var video = db.Playlist.First();
+            ViewBag.Video = $"https://www.youtube.com/embed/{video}?enablejsapi=1";
+            //db.Playlist.Remove(video);
+           // db.SaveChanges();
             return View();
         }
 

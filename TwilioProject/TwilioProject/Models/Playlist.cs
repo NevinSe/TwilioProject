@@ -10,8 +10,8 @@ namespace TwilioProject.Models
     public class Playlist
     {
         [Key]
-        public int SongOrderID { get; set; }
-        public int SongLength { get; set; }
+        public int? SongOrderID { get; set; }
+        public int? SongLength { get; set; }
         public string YoutubeID { get; set; }
         public string Title { get; set; }
         public string PhoneNumber { get; set; }
