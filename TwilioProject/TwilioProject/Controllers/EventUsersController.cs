@@ -21,13 +21,13 @@ namespace TwilioProject.Controllers
             ViewBag.sudo = new SelectList(testString);
             return View();
         }
-<<<<<<< HEAD
-
         public ActionResult QueueList()
         {
             return PartialView();
-=======
->>>>>>> b9b2e36ce2626ef13a02aee44e3a7af63ef8a086
+        }
+        public ActionResult AttendeeIndex()
+        {
+            return View();
         }
     }
 }
