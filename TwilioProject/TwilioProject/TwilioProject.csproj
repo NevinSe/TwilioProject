@@ -265,14 +265,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Keys.cs" />
-    <Compile Include="Migrations\201808082100151_FixExceptionAfterGitPull.cs" />
-    <Compile Include="Migrations\201808082100151_FixExceptionAfterGitPull.Designer.cs">
-      <DependentUpon>201808082100151_FixExceptionAfterGitPull.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808082242421_AddedFKtoEventUsersModel.cs" />
-    <Compile Include="Migrations\201808082242421_AddedFKtoEventUsersModel.Designer.cs">
-      <DependentUpon>201808082242421_AddedFKtoEventUsersModel.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Events.cs" />
@@ -556,6 +548,7 @@
     <Content Include="Views\Account\_PartialRegister.cshtml" />
     <Content Include="Views\EventUsers\CreateHost.cshtml" />
     <Content Include="Views\Account\_PartialRegisterAttendee.cshtml" />
+    <Content Include="Views\EventUsers\_PartialAttendeeSongRequest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -571,14 +564,6 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201808082100151_FixExceptionAfterGitPull.resx">
-      <DependentUpon>201808082100151_FixExceptionAfterGitPull.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808082242421_AddedFKtoEventUsersModel.resx">
-      <DependentUpon>201808082242421_AddedFKtoEventUsersModel.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

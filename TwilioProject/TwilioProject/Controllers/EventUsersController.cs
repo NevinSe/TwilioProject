@@ -24,10 +24,14 @@ namespace TwilioProject.Controllers
         {
             var user = User.Identity.GetUserId();
             var requiredData =
+                (from x in db.EventUsers
+                 where x.AppUserId == user
+                 select x).FirstOrDefault();
+            var requiredEventData =
                 (from x in db.Events
                  where x.HostID == user
                  select x).FirstOrDefault();
-            var eventCode = (requiredData.IsHosted == true) ? requiredData.EventCode : null;
+            var eventCode = (requiredEventData.IsHosted == true) ? requiredEventData.EventCode : null;
             if (eventCode != null)
             {
                 ViewBag.EventCode = eventCode;
@@ -66,7 +70,16 @@ namespace TwilioProject.Controllers
             db.SaveChanges();
             return RedirectToAction("IndexHost");
         }
-
+        //GET: AttendeeSongRequest
+        public ActionResult _PartialAttendeeSongRequest()
+        {
+            return View();
+        }
+        //POST: AttendeeSongRequest
+        public ActionResult _PartialAttendeeSongRequest()
+        {
+            return View();
+        }
 
     }
 }

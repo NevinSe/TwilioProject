@@ -107,8 +107,7 @@ namespace TwilioProject.Controllers
                 return SendMessage(userHelpString);
             }
             // Queue
-            else if (requestBody.ToLower() == "queue" && db.Events.Where(p => p.EventID == (db.EventUsers.Where(e => e.PhoneNumber == Phone.Parse(requestPhoneNumber)).Single().EventID)).Single().IsHosted == true)
-            {
+            else if (requestBody.ToLower() == "que") { 
                 var videos = db.Playlist;
                 var messageString = "";
                 var counter = 1;
