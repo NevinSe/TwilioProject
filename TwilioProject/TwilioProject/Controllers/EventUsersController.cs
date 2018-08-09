@@ -50,7 +50,11 @@ namespace TwilioProject.Controllers
         {
             return View();
         }
-        
+        public ActionResult SongSearchResults()
+        {
+            return View();
+        }
+
         //
         // GET: Host Creat
         public ActionResult CreateHost()
@@ -75,10 +79,15 @@ namespace TwilioProject.Controllers
         {
             return View();
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         //POST: AttendeeSongRequest
-        public ActionResult _PartialAttendeeSongRequest()
+        public ActionResult _PartialAttendeeSongRequest(Songs song)
         {
-            return View();
+            YoutubeSearch songSearch = new YoutubeSearch();
+            var searchResults = songSearch.SearchByTitle(song.Title);
+            ViewBag.SearchResults = searchResults;
+            return View("SongSearchResults");
         }
 
     }
