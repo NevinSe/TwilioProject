@@ -256,6 +256,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\EventUsersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -271,6 +272,10 @@
     <Compile Include="Migrations\201808082001311_AddedUserRoles.cs" />
     <Compile Include="Migrations\201808082001311_AddedUserRoles.Designer.cs">
       <DependentUpon>201808082001311_AddedUserRoles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808082242421_AddedFKtoEventUsersModel.cs" />
+    <Compile Include="Migrations\201808082242421_AddedFKtoEventUsersModel.Designer.cs">
+      <DependentUpon>201808082242421_AddedFKtoEventUsersModel.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -544,13 +549,15 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\EventUsers\CreateEvent.cshtml" />
+    <Content Include="Views\Event\CreateEvent.cshtml" />
     <Content Include="Views\EventUsers\QueueList.cshtml" />
     <Content Include="Views\EventUsers\PopularList.cshtml" />
     <Content Include="Views\EventUsers\ManageBannedSongs.cshtml" />
     <Content Include="Views\EventUsers\AttendeeIndex.cshtml" />
     <Content Include="Views\Home\Landing.cshtml" />
     <Content Include="Views\Account\_PartialRegister.cshtml" />
+    <Content Include="Views\EventUsers\CreateHost.cshtml" />
+    <Content Include="Views\Account\_PartialRegisterAttendee.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -574,6 +581,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808082001311_AddedUserRoles.resx">
       <DependentUpon>201808082001311_AddedUserRoles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808082242421_AddedFKtoEventUsersModel.resx">
+      <DependentUpon>201808082242421_AddedFKtoEventUsersModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
