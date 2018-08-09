@@ -1,0 +1,47 @@
+﻿@model TwilioProject.Models.EventUsers
+@{
+    ViewBag.Title = "CreateHost";
+}
+
+<a href="#" class="btn btn-primary btn-block btn-lg landing-btn" role="button" aria-disabled="false" data-toggle="modal" data-target="#modalCreateHost">Create Host</a>
+
+<div class="modal fade" id="modalCreateHost" tabindex="-1" role="dialog" aria-labelledby="modalCreateHost" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title w-100 font-weight-bold">Add Account Information</h4>
+
+            </div>
+            <div class="modal-body d-flex justify-content-center">
+
+                @using (Html.BeginForm("CreateHost", "EventUsers", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <center><h4>Create a new account.</h4></center>
+                    <hr />
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" class="btn btn-primary btn-block" value="Enter Account Information" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+

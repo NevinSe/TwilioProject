@@ -11,7 +11,6 @@ namespace TwilioProject.Models
     {
         [Key]
         public string UserID { get; set; }
-        [Required]
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
         [ForeignKey("Events")]
@@ -28,7 +27,9 @@ namespace TwilioProject.Models
         public string Title3 { get; set; }
         public string Title4 { get; set; }
         public string Title5 { get; set; }
-        
+        [ForeignKey("ApplicationUser")]
+        public string AppUserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
     }
 }

@@ -15,6 +15,8 @@ namespace TwilioProject.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        ApplicationDbContext db = new ApplicationDbContext();
+
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -138,6 +140,11 @@ namespace TwilioProject.Controllers
                     return View(model);
             }
         }
+        
+
+
+
+
 
         //
         // GET: /Account/Register
@@ -171,7 +178,7 @@ namespace TwilioProject.Controllers
                     await this.UserManager.AddToRoleAsync(user.Id, "Host");
                     
 
-                    return RedirectToAction("IndexHost", "EventUsers");
+                    return RedirectToAction("CreateHost", "EventUsers");
                 }
                 AddErrors(result);
             }
@@ -180,7 +187,29 @@ namespace TwilioProject.Controllers
             //return View(model);
             return RedirectToAction("_PartialRegister", model);
         }
-
+        //
+        // GET: Account/_PartialRegisterAttendee
+        public ActionResult _PartialRegisterAttendee()
+        {
+            return PartialView();
+        }
+        //
+        // Post: Account/_PartialRegisterAttendee
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult _PartialRegisterAttendee(EventUsers model)
+        {
+            if (db.EventUsers.Find(model.PhoneNumber) != null)
+            {
+                var user = new EventUsers { PhoneNumber = model.PhoneNumber };
+                var newID = new Guid().ToString();
+                user.UserID = newID;
+                db.EventUsers.Add(user);
+                db.SaveChanges();
+            }
+            
+            return RedirectToAction("AttendeeIndex", "EventUsers");
+        }
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
