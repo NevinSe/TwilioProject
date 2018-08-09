@@ -264,19 +264,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Keys.cs" />
-<<<<<<< HEAD
-    <Compile Include="Migrations\201808081949017_Init.cs" />
-    <Compile Include="Migrations\201808081949017_Init.Designer.cs">
-      <DependentUpon>201808081949017_Init.cs</DependentUpon>
-=======
-    <Compile Include="Migrations\201808081942208_Init.cs" />
-    <Compile Include="Migrations\201808081942208_Init.Designer.cs">
-      <DependentUpon>201808081942208_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808082001311_AddedUserRoles.cs" />
-    <Compile Include="Migrations\201808082001311_AddedUserRoles.Designer.cs">
-      <DependentUpon>201808082001311_AddedUserRoles.cs</DependentUpon>
->>>>>>> a8e50e2cbe677c616e8dd2de18a582762931b934
+    <Compile Include="Migrations\201808082100151_FixExceptionAfterGitPull.cs" />
+    <Compile Include="Migrations\201808082100151_FixExceptionAfterGitPull.Designer.cs">
+      <DependentUpon>201808082100151_FixExceptionAfterGitPull.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -575,16 +565,8 @@
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
-    <EmbeddedResource Include="Migrations\201808081949017_Init.resx">
-      <DependentUpon>201808081949017_Init.cs</DependentUpon>
-=======
-    <EmbeddedResource Include="Migrations\201808081942208_Init.resx">
-      <DependentUpon>201808081942208_Init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808082001311_AddedUserRoles.resx">
-      <DependentUpon>201808082001311_AddedUserRoles.cs</DependentUpon>
->>>>>>> a8e50e2cbe677c616e8dd2de18a582762931b934
+    <EmbeddedResource Include="Migrations\201808082100151_FixExceptionAfterGitPull.resx">
+      <DependentUpon>201808082100151_FixExceptionAfterGitPull.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
