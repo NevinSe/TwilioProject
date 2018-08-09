@@ -3,16 +3,16 @@ namespace TwilioProject.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class AddedUserRoles : DbMigration
+    public partial class Init : DbMigration
     {
         public override void Up()
         {
-            AddColumn("dbo.AspNetUsers", "UserRole", c => c.String());
+            AlterColumn("dbo.EventUsers", "PhoneNumber", c => c.String());
         }
         
         public override void Down()
         {
-            DropColumn("dbo.AspNetUsers", "UserRole");
+            AlterColumn("dbo.EventUsers", "PhoneNumber", c => c.String(nullable: false));
         }
     }
 }

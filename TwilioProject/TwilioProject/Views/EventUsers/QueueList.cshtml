@@ -2,7 +2,7 @@
 
 <a href="#" class="btn btn-info btn-block btn-lg" role="button" aria-disabled="false" data-toggle="modal" data-target="#modalViewQueueList">View Queue</a>
 
-<div class="modal fade" id="modalViewQueueList" tabindex="-1" role="dialog" aria-labelledby="myCreateEventModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalViewQueueList" tabindex="-1" role="dialog" aria-labelledby="modalViewQueueList" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header text-center">
@@ -12,11 +12,11 @@
                 </button>
             </div>
             <div class="modal-body mx-3">
-
-                @*<ul class="list-group">
+                @* UNCOMMENT BEFORE DEPLOYMENT, ALSO DELETE THIS COMMENT BEFORE SUBMISSION *@
+                    @*<ul class="list-group">
                         @foreach (var item in Model)
                         {
-                            <li class="list-group-item">@Html.DisplayNameFor(x=>x.Title)</li>
+                            <li class="list-group-item">@Html.DisplayNameFor(x=>x.SongOrderID) | @Html.DisplayNameFor(x=>x.Title)</li>
                         }
                     </ul>*@
 

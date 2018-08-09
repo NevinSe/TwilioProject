@@ -42,5 +42,35 @@ namespace TwilioProject.Controllers
             db.SaveChanges();
             return RedirectToAction("IndexHost", "EventUsers");
         }
+
+        //
+        // GET: /Event/_PartialManageEvent
+        public ActionResult _PartialManageEvent()
+        {
+            var user = User.Identity.GetUserId();
+            var myEvent = db.EventUsers.Find(user).EventID;
+            var currentEvent = db.Events.Find(myEvent);
+            return PartialView(currentEvent);
+        }
+        //
+        // POST: /Event/_PartialManageEvent
+        [HttpPost]
+        public ActionResult _PartialManageEvent(Events model)
+        {
+            var user = User.Identity.GetUserId();
+            var myEvent = db.EventUsers.Find(user).EventID;
+            var currentEvent =
+                (from x in db.Events
+                 where x.HostID == user
+                 select x).FirstOrDefault();
+            currentEvent.EventName = (model.EventName != null) ? model.EventName : currentEvent.EventName;
+            currentEvent.EventCode = (model.EventCode != null) ? model.EventCode : currentEvent.EventCode;
+            currentEvent.IsHosted = model.IsHosted;
+            db.Entry(currentEvent).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("IndexHost", "EventUsers");
+        }
     }
 }
+
+

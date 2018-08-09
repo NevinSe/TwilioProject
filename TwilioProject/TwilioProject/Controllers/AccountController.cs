@@ -23,7 +23,7 @@ namespace TwilioProject.Controllers
         public AccountController()
         {
         }
-
+        [ChildActionOnly]
         public ViewResult _PartialRegister()
         {
             return View();
@@ -58,7 +58,29 @@ namespace TwilioProject.Controllers
                 _userManager = value;
             }
         }
-
+        //
+        // Get /Account/_PartialLoginHost
+        [AllowAnonymous]
+        public ActionResult _PartialLoginHost()
+        {
+            return View();
+        }
+        //
+        // POST: /Account/_PArtialLoginHost
+        [HttpPost]
+        public ActionResult _PartialLoginHost(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Landing", "Home");
+            }
+            var result = SignInManager.PasswordSignIn(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            if (result == SignInStatus.Success)
+            {
+                return RedirectToAction("IndexHost", "EventUsers");
+            }
+            return RedirectToAction("Landing", "Home");
+        }
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -196,7 +218,6 @@ namespace TwilioProject.Controllers
         //
         // Post: Account/_PartialRegisterAttendee
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult _PartialRegisterAttendee(EventUsers model)
         {
             if (db.EventUsers.Find(model.PhoneNumber) != null)

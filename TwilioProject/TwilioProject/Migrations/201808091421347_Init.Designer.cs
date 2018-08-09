@@ -7,13 +7,13 @@ namespace TwilioProject.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class AddedFKtoEventUsersModel : IMigrationMetadata
+    public sealed partial class Init : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedFKtoEventUsersModel));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Init));
         
         string IMigrationMetadata.Id
         {
-            get { return "201808082242421_AddedFKtoEventUsersModel"; }
+            get { return "201808091421347_Init"; }
         }
         
         string IMigrationMetadata.Source

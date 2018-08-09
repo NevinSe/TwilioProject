@@ -17,10 +17,8 @@
         <div class=" whitespace-remove">
             <div class="collapse" id="eventMenu">
                 <div class="bg-primary p-4 whitespace-remove">
-                    <a href="#" class="btn btn-primary btn-block btn-lg" role="button" aria-disabled="false" data-toggle="modal" data-target="#modalCreateEventForm">Create Event</a>
                     @Html.Partial("~/Views/Event/CreateEvent.cshtml")
-                    <button class="btn btn-info btn-block btn-lg" type="button">Manage Current Event</button>
-                    <a href="#" class="btn btn-primary btn-block btn-lg" role="button" aria-disabled="false" data-toggle="modal" data-target="#modalPastEventForm">My Past Events</a>
+                    @Html.Partial("~/Views/Event/_PartialManageEvent.cshtml")
                 </div>
             </div>
             <nav class="whitespace-remove">

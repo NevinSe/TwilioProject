@@ -27,10 +27,16 @@ namespace TwilioProject.Controllers
                 (from x in db.Events
                  where x.HostID == user
                  select x).FirstOrDefault();
-            var eventCode = (requiredData.IsHosted == true) ? requiredData.EventCode : null;
-            if (eventCode != null)
+            var isActiveEvent = (requiredData != null) ? true : false;
+            // if isactive = true
+            // do event code turnary
+            if (isActiveEvent)
             {
-                ViewBag.EventCode = eventCode;
+                var eventCode = (requiredData.IsHosted == true) ? requiredData.EventCode : null;
+                if (eventCode != null)
+                {
+                    ViewBag.EventCode = eventCode;
+                }
             }
             else
             {
