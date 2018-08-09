@@ -18,7 +18,8 @@ namespace TwilioProject.Controllers
         private Regex banUser = new Regex(@"^ban [(]?\d{3}[)]?[-]?\s?\d{3}\s?[-]?\d{4}$");
         private Regex setVol = new Regex(@"^set volume \d?\d?\d[%]?$");
         private YoutubeSearch search = new YoutubeSearch();
-        public static Playlist currentVideo;
+        public static Songs currentVideo;
+        public static Playlist whoPlayed;
         private List<string[]> videos = new List<string[]>();
         private bool isCompleted = false;
         [HttpPost]
@@ -36,13 +37,10 @@ namespace TwilioProject.Controllers
             // Get Phone Number Of Current Song
             else if (requestBody.ToLower() == "who played this")
             {
-                var currentSong = db.Playlist.First();
-                var whoPlayed = db.EventUsers.Where(e => e.PhoneNumber == currentSong.PhoneNumber).Single().PhoneNumber;
-                return SendMessage(whoPlayed);
+                return SendMessage(whoPlayed.PhoneNumber);
             }
             // Ban User
             else if (banUser.IsMatch(requestBody.ToLower())/* && Phone.Parse(requestPhoneNumber) == hostPhoneNumber*/)
-            else if(banUser.IsMatch(requestBody.ToLower())/* && Phone.Parse(requestPhoneNumber) == hostPhoneNumber*/)
             {
                 var tempNumber = "";
                 foreach (char character in requestBody)
@@ -53,7 +51,6 @@ namespace TwilioProject.Controllers
                     }
                     catch (System.Exception)
                     {
-                    catch (System.Exception) {
                         return SendMessage("meh");
                     }
                 }
@@ -72,7 +69,6 @@ namespace TwilioProject.Controllers
             }
             // Ban Current Song
             else if (requestBody.ToLower() == "ban song" /*&& Phone.Parse(requestPhoneNumber) == hostPhoneNumber*/)
-            else if(requestBody.ToLower() == "ban song" /*&& Phone.Parse(requestPhoneNumber) == hostPhoneNumber*/)
             {
                 var currentSong = db.Playlist.First();
                 db.Songs.Where(s => s.YoutubeId == currentSong.YoutubeID).Single().IsBanned = true;
@@ -111,7 +107,7 @@ namespace TwilioProject.Controllers
                 return SendMessage(userHelpString);
             }
             // Queue
-            else if (requestBody.ToLower() == "queue" && db.Events.Where(p => p.EventID == (db.EventUsers.Where(e => e.PhoneNumber == Phone.Parse(requestPhoneNumber)).Single().EventID)).Single().IsHosted == true)
+            else if (requestBody.ToLower() == "que")
             {
                 var videos = db.Playlist;
                 var messageString = "";
@@ -152,14 +148,14 @@ namespace TwilioProject.Controllers
             // Like
             else if (requestBody.ToLower() == "like")
             {
-                var currentSong = db.Songs.Where(s => s.YoutubeId == db.Playlist.First().YoutubeID).Single();
+                var currentSong = db.Songs.Where(s => s.YoutubeId == currentVideo.YoutubeId).First();
                 currentSong.Likes++;
                 db.SaveChanges();
             }
             // Dislike
             else if (requestBody.ToLower() == "dislike")
             {
-                var currentSong = db.Songs.Where(s => s.YoutubeId == db.Playlist.First().YoutubeID).Single();
+                var currentSong = db.Songs.Where(s => s.YoutubeId == currentVideo.YoutubeId).First();
                 currentSong.Dislikes++;
                 db.SaveChanges();
             }
@@ -167,7 +163,7 @@ namespace TwilioProject.Controllers
             else
             {
 
-                Search(requestBody);
+                Search(requestBody.ToLower().Trim());
                 IdAndTitleToDB(videos, Phone.Parse(requestPhoneNumber));
                 return SendMessage(VideosToMessage(videos));
             }
@@ -182,22 +178,19 @@ namespace TwilioProject.Controllers
                 isCompleted = true;
             }
 
-            }
-            return SendMessage("debug");
         }
-        public void Search(string requestBody)
+        public void SkipSong()
         {
+            var controller = DependencyResolver.Current.GetService<HomeController>();
+            controller.ControllerContext = new ControllerContext(this.Request.RequestContext, controller);
+
+
+
+            ControllerActionInvoker controllerActionInvoker = new ControllerActionInvoker();
+            //HomeController homeController = new HomeController();
+            //controllerContext.Controller.ControllerContext = homeController.ControllerContext;
+            controllerActionInvoker.InvokeAction(controller.ControllerContext, "Index");
             
-            videos = search.SearchByTitle(requestBody);
-            if (videos.Count != 0)
-            {
-                isCompleted = true;
-            }
-                
-        }
-        public ActionResult SkipSong()
-        {
-            return RedirectToAction("Index", "Home");
         }
         public string VideosToMessage(List<string[]> videos)
         {
