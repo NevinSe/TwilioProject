@@ -569,14 +569,12 @@
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Migrations\201808081942208_Init.resx">
       <DependentUpon>201808081942208_Init.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808082001311_AddedUserRoles.resx">
       <DependentUpon>201808082001311_AddedUserRoles.cs</DependentUpon>
     </EmbeddedResource>
-  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
