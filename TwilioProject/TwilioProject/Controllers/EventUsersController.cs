@@ -46,6 +46,15 @@ namespace TwilioProject.Controllers
         }
         public ActionResult QueueList()
         {
+            var x = db.Playlist.Select(y => y.SongOrderID).ToArray();
+            Array.Sort(x);
+            List<Playlist> queue = new List<Playlist>();
+            for(int i = 0; i < 4; i++)
+            {
+                var newItem = db.Playlist.Where(y => y.SongOrderID == x[i]).Select(y => y).FirstOrDefault();
+                queue.Add(newItem);
+            }
+            ViewBag.Queue = new SelectList(queue);
             return PartialView();
         }
         public ActionResult AttendeeIndex()
