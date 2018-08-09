@@ -86,7 +86,13 @@ namespace TwilioProject.Controllers
         {
             YoutubeSearch songSearch = new YoutubeSearch();
             var searchResults = songSearch.SearchByTitle(song.Title);
-            ViewBag.SearchResults = searchResults;
+            List<string> songList = new List<string>();
+            for (var i = 0; i < searchResults.Count; i++)
+            {
+                string result = searchResults[i][0];
+                songList.Add(result);                
+            }
+            ViewBag.SongList = songList;
             return View("SongSearchResults");
         }
 
