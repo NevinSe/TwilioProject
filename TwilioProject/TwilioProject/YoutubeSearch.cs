@@ -13,7 +13,7 @@ namespace TwilioProject
         {
             try
             {
-                new YoutubeSearch().SearchByTitle("korn").Wait();
+                new YoutubeSearch().SearchByTitle("korn");
             }
             catch (AggregateException ex)
             {
@@ -24,7 +24,7 @@ namespace TwilioProject
             }
         }
 
-        public async Task<List<string[]>> SearchByTitle(string searchTerm)
+        public List<string[]> SearchByTitle(string searchTerm)
         {
             var youtubeService = new YouTubeService(new BaseClientService.Initializer()
             {
@@ -35,8 +35,8 @@ namespace TwilioProject
             var searchListRequest = youtubeService.Search.List("snippet");
             searchListRequest.Q = searchTerm;
             searchListRequest.MaxResults = 5;
-            
-            var searchListResponse = await searchListRequest.ExecuteAsync();
+
+            var searchListResponse = searchListRequest.Execute();
 
             List<string[]> videos = new List<string[]>();
             

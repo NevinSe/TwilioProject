@@ -554,6 +554,8 @@
     <Content Include="Views\EventUsers\PopularList.cshtml" />
     <Content Include="Views\EventUsers\ManageBannedSongs.cshtml" />
     <Content Include="Views\EventUsers\AttendeeIndex.cshtml" />
+    <Content Include="Views\Sms\Index.cshtml" />
+    <Content Include="Views\Sms\IndexTest.cshtml" />
     <Content Include="Views\Home\Landing.cshtml" />
     <Content Include="Views\Account\_PartialRegister.cshtml" />
     <Content Include="Views\EventUsers\CreateHost.cshtml" />
@@ -562,7 +564,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="obj\Debug\TempPE\" />
-    <Folder Include="Views\Sms\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
