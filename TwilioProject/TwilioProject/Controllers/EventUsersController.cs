@@ -75,11 +75,6 @@ namespace TwilioProject.Controllers
         {
             return View();
         }
-        //POST: AttendeeSongRequest
-        public ActionResult _PartialAttendeeSongRequest()
-        {
-            return View();
-        }
 
     }
 }
