@@ -7,7 +7,6 @@ using TwilioProject.Models;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
 namespace TwilioProject.Controllers
 {
     public class SmsController : TwilioController
@@ -18,7 +17,8 @@ namespace TwilioProject.Controllers
         private Regex banUser = new Regex(@"^ban [(]?\d{3}[)]?[-]?\s?\d{3}\s?[-]?\d{4}$");
         private Regex setVol = new Regex(@"^set volume \d?\d?\d[%]?$");
         private YoutubeSearch search = new YoutubeSearch();
-        public static Playlist currentVideo;
+        public static Songs currentVideo;
+        public static Playlist whoPlayed;
         private List<string[]> videos = new List<string[]>();
         private bool isCompleted = false;
         [HttpPost]
@@ -36,12 +36,10 @@ namespace TwilioProject.Controllers
             // Get Phone Number Of Current Song
             else if (requestBody.ToLower() == "who played this")
             {
-                var currentSong = db.Playlist.First();
-                var whoPlayed = db.EventUsers.Where(e => e.PhoneNumber == currentSong.PhoneNumber).Single().PhoneNumber;
-                return SendMessage(whoPlayed);
+                return SendMessage(whoPlayed.PhoneNumber);
             }
             // Ban User
-            else if(banUser.IsMatch(requestBody.ToLower())/* && Phone.Parse(requestPhoneNumber) == hostPhoneNumber*/)
+            else if (banUser.IsMatch(requestBody.ToLower())/* && Phone.Parse(requestPhoneNumber) == hostPhoneNumber*/)
             {
                 var tempNumber = "";
                 foreach (char character in requestBody)
@@ -50,7 +48,8 @@ namespace TwilioProject.Controllers
                     {
                         tempNumber += int.Parse(character.ToString()).ToString();
                     }
-                    catch (System.Exception) {
+                    catch (System.Exception)
+                    {
                         return SendMessage("meh");
                     }
                 }
@@ -68,7 +67,7 @@ namespace TwilioProject.Controllers
                 }
             }
             // Ban Current Song
-            else if(requestBody.ToLower() == "ban song" /*&& Phone.Parse(requestPhoneNumber) == hostPhoneNumber*/)
+            else if (requestBody.ToLower() == "ban song" /*&& Phone.Parse(requestPhoneNumber) == hostPhoneNumber*/)
             {
                 var currentSong = db.Playlist.First();
                 db.Songs.Where(s => s.YoutubeId == currentSong.YoutubeID).Single().IsBanned = true;
@@ -107,7 +106,8 @@ namespace TwilioProject.Controllers
                 return SendMessage(userHelpString);
             }
             // Queue
-            else if (requestBody.ToLower() == "que") { 
+            else if (requestBody.ToLower() == "que")
+            {
                 var videos = db.Playlist;
                 var messageString = "";
                 var counter = 1;
@@ -147,22 +147,21 @@ namespace TwilioProject.Controllers
             // Like
             else if (requestBody.ToLower() == "like")
             {
-                var currentSong = db.Songs.Where(s => s.YoutubeId == db.Playlist.First().YoutubeID).Single();
+                var currentSong = db.Songs.Where(s => s.YoutubeId == currentVideo.YoutubeId).First();
                 currentSong.Likes++;
                 db.SaveChanges();
             }
             // Dislike
             else if (requestBody.ToLower() == "dislike")
             {
-                var currentSong = db.Songs.Where(s => s.YoutubeId == db.Playlist.First().YoutubeID).Single();
+                var currentSong = db.Songs.Where(s => s.YoutubeId == currentVideo.YoutubeId).First();
                 currentSong.Dislikes++;
                 db.SaveChanges();
             }
             // Song Search
             else
             {
-
-                Search(requestBody);
+                Search(requestBody.ToLower().Trim());
                 IdAndTitleToDB(videos, Phone.Parse(requestPhoneNumber));
                 return SendMessage(VideosToMessage(videos));
             }
@@ -170,17 +169,21 @@ namespace TwilioProject.Controllers
         }
         public void Search(string requestBody)
         {
-
             videos = search.SearchByTitle(requestBody);
             if (videos.Count != 0)
             {
                 isCompleted = true;
             }
-            
         }
-        public ActionResult SkipSong()
+        public void SkipSong()
         {
-            return RedirectToAction("Index", "Home");
+            var controller = DependencyResolver.Current.GetService<HomeController>();
+            controller.ControllerContext = new ControllerContext(this.Request.RequestContext, controller);
+            ControllerActionInvoker controllerActionInvoker = new ControllerActionInvoker();
+            //HomeController homeController = new HomeController();
+            //controllerContext.Controller.ControllerContext = homeController.ControllerContext;
+            controllerActionInvoker.InvokeAction(controller.ControllerContext, "Index");
+
         }
         public string VideosToMessage(List<string[]> videos)
         {
@@ -251,21 +254,17 @@ namespace TwilioProject.Controllers
         public ActionResult EventCode(string number, string message)
         {
             string userPhone = Phone.Parse(number);
-
             // Find User by Number
             var user = db.EventUsers.Where(u => u.PhoneNumber == userPhone).SingleOrDefault();
-
             // New User
             if (user == default(EventUsers) && regex.IsMatch(message))
             {
                 var myEvent = db.Events.Where(e => e.IsHosted == true && e.EventCode == message.ToLower()).SingleOrDefault();
-
                 // Event Not Hosted or Wrong Code
                 if (myEvent == default(Events))
                 {
                     return SendMessage("Sorry, The Event You're Looking For Is Either Not Currently Hosted Or The Event Code Entered Is Incorrect.");
                 }
-
                 // Event Hosted and Code is Valid, New User
                 else
                 {
@@ -273,29 +272,24 @@ namespace TwilioProject.Controllers
                     {
                         PhoneNumber = userPhone,
                         EventID = myEvent.EventID
-
                     };
                     db.EventUsers.Add(newUser);
                     db.SaveChanges();
                     return SendMessage($"You have been added to the event, {myEvent.EventName}.");
                 }
             }
-
             // Returning User
             else if (user != default(EventUsers) && regex.IsMatch(message))
             {
                 var myEvent = db.Events.Where(e => e.IsHosted == true && e.EventCode == message.ToLower()).SingleOrDefault();
-
                 // EventHosted or Wrong Code
                 if (myEvent == default(Events))
                 {
                     return SendMessage("Sorry, The Event You're Looking For Is Either Not Currently Hosted Or The Event Code Entered Is Incorrect.");
                 }
-
                 // Event Hosted and Code Valid, Return User
                 else
                 {
-
                     user.EventID = myEvent.EventID;
                     db.SaveChanges();
                     return SendMessage($"You have been added to the event, {myEvent.EventName}.");
