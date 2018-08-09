@@ -552,8 +552,13 @@
     <Content Include="Views\Account\_PartialRegister.cshtml" />
     <Content Include="Views\EventUsers\CreateHost.cshtml" />
     <Content Include="Views\Account\_PartialRegisterAttendee.cshtml" />
+
     <Content Include="Views\Account\_PartialLoginHost.cshtml" />
     <Content Include="Views\Event\_PartialManageEvent.cshtml" />
+
+    <Content Include="Views\EventUsers\_PartialAttendeeSongRequest.cshtml" />
+    <Content Include="Views\EventUsers\SongSearchResults.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

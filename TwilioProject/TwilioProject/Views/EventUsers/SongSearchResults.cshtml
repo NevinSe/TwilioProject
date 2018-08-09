@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "SongSearchResults";
+}
+
+
+
+
+<table class="table">
+        <tr>
+            <th>
+                <p>Song Title</p>
+            </th>
+
+        </tr>
+
+        @foreach (var item in ViewBag.SongList)
+        {
+            <tr>
+                <td>
+                @Html.DisplayTextFor(m=>item);
+                </td>
+            </tr>
+        }
+
+    </table>

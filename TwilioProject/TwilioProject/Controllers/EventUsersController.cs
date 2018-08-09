@@ -24,13 +24,19 @@ namespace TwilioProject.Controllers
         {
             var user = User.Identity.GetUserId();
             var requiredData =
+                (from x in db.EventUsers
+                 where x.AppUserId == user
+                 select x).FirstOrDefault();
+            var requiredEventData =
                 (from x in db.Events
                  where x.HostID == user
                  select x).FirstOrDefault();
+
             var isActiveEvent = (requiredData != null) ? true : false;
             // if isactive = true
             // do event code turnary
             if (isActiveEvent)
+
             {
                 var eventCode = (requiredData.IsHosted == true) ? requiredData.EventCode : null;
                 if (eventCode != null)
@@ -61,7 +67,11 @@ namespace TwilioProject.Controllers
         {
             return View();
         }
-        
+        public ActionResult SongSearchResults()
+        {
+            return View();
+        }
+
         //
         // GET: Host Creat
         public ActionResult CreateHost()
@@ -75,13 +85,32 @@ namespace TwilioProject.Controllers
         public ActionResult CreateHost(EventUsers model)
         {
             var user = User.Identity.GetUserId();
-            var newID = new Guid().ToString();            
+            var newID = new Guid().ToString();
             var newHost = new EventUsers { PhoneNumber = model.PhoneNumber, AppUserId = user, UserID = user };
             db.EventUsers.Add(newHost);
             db.SaveChanges();
             return RedirectToAction("IndexHost");
         }
-
-
+        //GET: AttendeeSongRequest
+        public ActionResult _PartialAttendeeSongRequest()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        //POST: AttendeeSongRequest
+        public ActionResult _PartialAttendeeSongRequest(Songs song)
+        {
+            YoutubeSearch songSearch = new YoutubeSearch();
+            var searchResults = songSearch.SearchByTitle(song.Title);
+            List<string> songList = new List<string>();
+            for (var i = 0; i < searchResults.Count; i++)
+            {
+                string result = searchResults[i][0];
+                songList.Add(result);
+            }
+            ViewBag.SongList = songList;
+            return View("SongSearchResults");
+        }
     }
 }
