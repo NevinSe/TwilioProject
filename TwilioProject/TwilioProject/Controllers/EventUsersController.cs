@@ -31,6 +31,10 @@ namespace TwilioProject.Controllers
                 (from x in db.Events
                  where x.HostID == user
                  select x).FirstOrDefault();
+            var myEvent =
+                (from x in db.Events
+                 where x.IsHosted == true
+                 select x).FirstOrDefault();
 
             var isActiveEvent = (requiredData != null) ? true : false;
             // if isactive = true
@@ -38,10 +42,10 @@ namespace TwilioProject.Controllers
             if (isActiveEvent)
 
             {
-                var eventCode = (requiredData.IsHosted == true) ? requiredData.EventCode : null;
+                var eventCode = (requiredEventData.IsHosted == true) ? requiredEventData.EventCode : null;
                 if (eventCode != null)
                 {
-                    ViewBag.EventCode = eventCode;
+                    ViewBag.EventCode = myEvent.EventCode;
                 }
             }
             else
@@ -50,18 +54,31 @@ namespace TwilioProject.Controllers
             }
             return View();
         }
+        [ChildActionOnly]
         public ActionResult QueueList()
         {
             var x = db.Playlist.Select(y => y.SongOrderID).ToArray();
             Array.Sort(x);
             List<Playlist> queue = new List<Playlist>();
-            for(int i = 0; i < 4; i++)
+            int queueCount = (x.Count() < 5) ? x.Count() : 5;
+            for(int i = 0; i < queueCount; i++)
             {
-                var newItem = db.Playlist.Where(y => y.SongOrderID == x[i]).Select(y => y).FirstOrDefault();
+                var songOrderID = x[i];
+                var newItem = db.Playlist.Where(y => y.SongOrderID == songOrderID).Select(y => y).FirstOrDefault();
+                
                 queue.Add(newItem);
             }
-            ViewBag.Queue = new SelectList(queue);
+            ViewBag.Queue = queue;
             return PartialView();
+        }
+        [ChildActionOnly]
+        public ActionResult PopularList()
+        {
+            
+            var y = db.Songs.OrderByDescending(x => x.Likes).Take(5).Select(x => x).ToList();
+            ViewBag.TopList = y;
+            return PartialView();
+
         }
         public ActionResult AttendeeIndex()
         {
@@ -111,6 +128,26 @@ namespace TwilioProject.Controllers
             }
             ViewBag.SongList = songList;
             return View("SongSearchResults");
+        }
+        //
+        // Get Banned Song
+        [ChildActionOnly]
+        public ActionResult ManageBannedSongs()
+        {
+            var x = db.Playlist.Select(y => y).ToArray();
+            Array.Sort(x);
+            Playlist newitem = x[0];
+            ViewBag.CurrentSong = newitem;
+            return PartialView();
+        }
+        // Post Banned Song
+        [HttpPost]
+        public ActionResult ManageBannedSOngs(Playlist toBan)
+        {
+            Songs newSong = new Songs();
+            newSong.YoutubeId = toBan.YoutubeID;
+            newSong.IsBanned = true;
+            return RedirectToAction("IndexHost");
         }
     }
 }

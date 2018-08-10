@@ -1,8 +1,7 @@
-﻿@model TwilioProject.Models.Songs
+﻿
+<a href="#" class="btn btn-primary btn-block btn-lg" role="button" aria-disabled="false" data-toggle="modal" data-target="#modalViewPopularList">View Popular Songs</a>
 
-<a href="#" class="btn btn-primary btn-block btn-lg" role="button" aria-disabled="false" data-toggle="modal" data-target="#modalViewQueueList">View Popular Songs</a>
-
-<div class="modal fade" id="modalViewQueueList" tabindex="-1" role="dialog" aria-labelledby="myCreateEventModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalViewPopularList" tabindex="-1" role="dialog" aria-labelledby="modalViewPopularList" aria-hidden="true" style="color: black">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header text-center">
@@ -13,12 +12,12 @@
             </div>
             <div class="modal-body mx-3">
 
-                @*<ul class="list-group">
-                        @foreach (var item in Model)
+                <ul class="list-group">
+                        @foreach (var item in ViewBag.TopList)
                         {
-                            <li class="list-group-item">@Html.DisplayNameFor(x=>x.Title)</li>
+                            <li class="list-group-item">@item.Title</li>
                         }
-                    </ul>*@
+                    </ul>
 
             </div>
         </div>

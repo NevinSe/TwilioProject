@@ -265,10 +265,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Keys.cs" />
-    <Compile Include="Migrations\201808091421347_Init.cs" />
-    <Compile Include="Migrations\201808091421347_Init.Designer.cs">
-      <DependentUpon>201808091421347_Init.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Events.cs" />
@@ -552,13 +548,10 @@
     <Content Include="Views\Account\_PartialRegister.cshtml" />
     <Content Include="Views\EventUsers\CreateHost.cshtml" />
     <Content Include="Views\Account\_PartialRegisterAttendee.cshtml" />
-
     <Content Include="Views\Account\_PartialLoginHost.cshtml" />
     <Content Include="Views\Event\_PartialManageEvent.cshtml" />
-
     <Content Include="Views\EventUsers\_PartialAttendeeSongRequest.cshtml" />
     <Content Include="Views\EventUsers\SongSearchResults.cshtml" />
-
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -574,11 +567,6 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201808091421347_Init.resx">
-      <DependentUpon>201808091421347_Init.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
