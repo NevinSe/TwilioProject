@@ -31,10 +31,10 @@
             <div class="collapse whitespace-remove" id="playlistMenu">
                 <div class="bg-primary p-4 whitespace-remove">
                     @*<button class="btn btn-primary btn-block btn-lg" type="button">Set Playlist</button>*@
-                    <a href="#" class="btn btn-primary btn-block btn-lg" role="button" aria-disabled="false" data-toggle="modal" data-target="#modalSetPlaylistForm">Set Playlist</a>
+                    @*<a href="#" class="btn btn-primary btn-block btn-lg" role="button" aria-disabled="false" data-toggle="modal" data-target="#modalSetPlaylistForm">Set Playlist</a>*@
                     @Html.Action("QueueList", "EventUsers")
                     @Html.Action("PopularList", "EventUsers")
-                    @Html.Partial("ManageBannedSongs")
+                    @Html.Action("ManageBannedSongs")
                 </div>
             </div>
             <nav class="whitespace-remove">

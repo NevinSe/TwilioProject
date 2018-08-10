@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "ManageBannedSongs";
 }
-<a href="#" class="btn btn-info btn-block btn-lg" role="button" aria-disabled="false" data-toggle="modal" data-target="#modalManageBannedSongs">Manage Banned Songs</a>
+<a href="#" class="btn btn-info btn-block btn-lg" role="button" aria-disabled="false" data-toggle="modal" data-target="#modalManageBannedSongs" style="color: black">Manage Banned Songs</a>
 
 <div class="modal fade" id="modalManageBannedSongs" tabindex="-1" role="dialog" aria-labelledby="modalManageBannedSongs" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -14,8 +14,18 @@
                 </button>
             </div>
             <div class="modal-body mx-3">
-                @*@Html.DisplayFor(m => m.Title)
-                @Html.ActionLink("Ban Song", "_PartialAddBannedSong", new { id = Model.YoutubeID })*@
+        
+                    <table class="table" style="color:black">
+                        <tr>
+                            <th>Song Title</th>
+                        </tr>
+                        @foreach (var item in ViewBag.BannedList)
+                        {
+                            <tr>
+                                <td>@Html.DisplayTextFor(m => item)</td>
+                            </tr>
+                        }
+                    </table>
             </div>
         </div>
     </div>

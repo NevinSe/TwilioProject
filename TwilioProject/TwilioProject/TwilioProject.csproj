@@ -547,16 +547,15 @@
     <Content Include="Views\Sms\IndexTest.cshtml" />
     <Content Include="Views\Home\Landing.cshtml" />
     <Content Include="Views\Account\_PartialRegister.cshtml" />
-<<<<<<< HEAD
+
     <Content Include="Views\Shared\Index.cshtml" />
-=======
+
     <Content Include="Views\EventUsers\CreateHost.cshtml" />
     <Content Include="Views\Account\_PartialRegisterAttendee.cshtml" />
     <Content Include="Views\Account\_PartialLoginHost.cshtml" />
     <Content Include="Views\Event\_PartialManageEvent.cshtml" />
     <Content Include="Views\EventUsers\_PartialAttendeeSongRequest.cshtml" />
     <Content Include="Views\EventUsers\SongSearchResults.cshtml" />
->>>>>>> d0b5345db7f8f41a77fc7399090764d79a980f45
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

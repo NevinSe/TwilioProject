@@ -22,6 +22,7 @@ namespace TwilioProject.Controllers
         // GET: Host Controller
         public ActionResult IndexHost()
         {
+
             var user = User.Identity.GetUserId();
             var requiredData =
                 (from x in db.EventUsers
@@ -131,12 +132,8 @@ namespace TwilioProject.Controllers
         [ChildActionOnly]
         public ActionResult ManageBannedSongs()
         {
-            var bannedList =
-                from z in db.Songs
-                where z.IsBanned == true
-                select z;
-            var xx = bannedList.ToList();
-
+            var zz = db.Songs.Where(m => m.IsBanned == true).Select(m => m.Title).ToList();
+            ViewBag.BannedList = zz;
 
             var x = db.Playlist.Select(y => y).ToArray();
             Array.Sort(x);
