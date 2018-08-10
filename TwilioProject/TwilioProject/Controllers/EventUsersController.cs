@@ -65,7 +65,7 @@ namespace TwilioProject.Controllers
             {
                 var songOrderID = x[i];
                 var newItem = db.Playlist.Where(y => y.SongOrderID == songOrderID).Select(y => y).FirstOrDefault();
-                
+
                 queue.Add(newItem);
             }
             ViewBag.Queue = queue;
@@ -74,17 +74,13 @@ namespace TwilioProject.Controllers
         [ChildActionOnly]
         public ActionResult PopularList()
         {
-            
+
             var y = db.Songs.OrderByDescending(x => x.Likes).Take(5).Select(x => x).ToList();
             ViewBag.TopList = y;
             return PartialView();
 
         }
         public ActionResult AttendeeIndex()
-        {
-            return View();
-        }
-        public ActionResult SongSearchResults()
         {
             return View();
         }
@@ -126,9 +122,12 @@ namespace TwilioProject.Controllers
                 string result = searchResults[i][0];
                 songList.Add(result);
             }
+            Playlist model = new Playlist();
+            model.Title = song.Title;
             ViewBag.SongList = songList;
             return View("SongSearchResults");
         }
+
         //
         // Get Banned Song
         [ChildActionOnly]
@@ -149,5 +148,31 @@ namespace TwilioProject.Controllers
             newSong.IsBanned = true;
             return RedirectToAction("IndexHost");
         }
+
+
+        //GET: display top 5 search results to attendee
+        public ActionResult SongSearchResults()
+        {
+            return View();
+        }
+        //POST: queue the attendees final selection
+//GET: adds attendees song to the playlist
+
+        public ActionResult SearchResult(string Title)
+        {
+            YoutubeSearch songSearch = new YoutubeSearch();
+            var searchResults = songSearch.SearchByTitle(Title);
+
+                var selectedSong = searchResults.Select(x => searchResults[0]).First();
+                Playlist song = new Playlist();
+                song.Title = selectedSong[0];
+                song.YoutubeID = selectedSong[1];
+                db.Playlist.Add(song);
+                db.SaveChanges();
+
+            return View("AttendeeIndex");
+        }
+
+
     }
 }
