@@ -264,14 +264,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Keys.cs" />
-    <Compile Include="Migrations\201808081942208_Init.cs" />
-    <Compile Include="Migrations\201808081942208_Init.Designer.cs">
-      <DependentUpon>201808081942208_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808082001311_AddedUserRoles.cs" />
-    <Compile Include="Migrations\201808082001311_AddedUserRoles.Designer.cs">
-      <DependentUpon>201808082001311_AddedUserRoles.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Events.cs" />
@@ -280,6 +272,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Playlist.cs" />
     <Compile Include="Models\Songs.cs" />
+    <Compile Include="Models\VideoViewModel.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
@@ -549,10 +542,11 @@
     <Content Include="Views\EventUsers\PopularList.cshtml" />
     <Content Include="Views\EventUsers\ManageBannedSongs.cshtml" />
     <Content Include="Views\EventUsers\AttendeeIndex.cshtml" />
-    <Content Include="Views\Sms\Index.cshtml" />
+    <Content Include="Views\Sms\YoutubeIndex.cshtml" />
     <Content Include="Views\Sms\IndexTest.cshtml" />
     <Content Include="Views\Home\Landing.cshtml" />
     <Content Include="Views\Account\_PartialRegister.cshtml" />
+    <Content Include="Views\Shared\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -569,12 +563,6 @@
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
-    <EmbeddedResource Include="Migrations\201808081942208_Init.resx">
-      <DependentUpon>201808081942208_Init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808082001311_AddedUserRoles.resx">
-      <DependentUpon>201808082001311_AddedUserRoles.cs</DependentUpon>
-    </EmbeddedResource>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

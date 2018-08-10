@@ -1,9 +1,10 @@
 ﻿@model TwilioProject.Models.VideoViewModel
 <h2>View</h2>
+
 <div>
     <iframe id="existing-iframe-example"
             width="640" height="360"
-            src= @Model.youtubeId
+            src=@Model.youtubeId
             frameborder="0"
             style="border: solid 4px #37474F"></iframe>
 
@@ -49,7 +50,7 @@
         function onPlayerStateChange(event) {
             //changeBorderColor(event.data);
             if (event.data === 0) {
-                document.location.reload();     
+                document.location.reload();
             }
         }
     </script>

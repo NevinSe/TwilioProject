@@ -22,6 +22,26 @@ namespace TwilioProject.Controllers
         public static Playlist whoPlayed;
         private List<string[]> videos = new List<string[]>();
         private bool isCompleted = false;
+        public ActionResult YoutubeIndex()
+        {
+            VideoViewModel videoViewModel = new VideoViewModel();
+            //var video = "6tgAJtvRP70";
+            var video = db.Playlist.First();
+            Songs song = new Songs();
+            song.EventID = db.EventUsers.Where(p => p.PhoneNumber == video.PhoneNumber).Single().EventID;
+            song.SongLength = 4; //LOL
+            song.Title = video.Title;
+            song.YoutubeId = video.YoutubeID;
+            song.IsBanned = false;
+            videoViewModel.youtubeId = $"https://www.youtube.com/embed/{video.YoutubeID}?autoplay=1&enablejsapi=1";
+            //ViewBag.Video = $"https://www.youtube.com/embed/{video.YoutubeID}?autoplay=1&enablejsapi=1";
+            SmsController.currentVideo = song;
+            SmsController.whoPlayed = video;
+            db.Songs.Add(song);
+            db.Playlist.Remove(video);
+            db.SaveChanges();
+            return View(videoViewModel);
+        }
         [HttpPost]
         public ActionResult Index()
         {
@@ -124,23 +144,12 @@ namespace TwilioProject.Controllers
             {
                 int numberOfHotSongs = 5;
                 string messageString = "The Top Songs Are:\r\n";
-                List<string> topSongTitles = new List<string>();
                 int counter = 1;
-                for (int i = 0; i < numberOfHotSongs; i++)
+                var parsePhone = Phone.Parse(requestPhoneNumber);
+                var currentSongs = db.Songs.OrderByDescending(o => o.Likes).Take(numberOfHotSongs).Select(p=>p).ToList();
+                foreach (Songs song in currentSongs)
                 {
-                    var currentSong = db.Songs.Where(s => s.EventID == (db.EventUsers.Where(e => e.PhoneNumber == Phone.Parse(requestPhoneNumber)).Single().EventID)).OrderBy(o => o.Likes).ElementAtOrDefault(i);
-                    if (currentSong == default(Songs))
-                    {
-                        topSongTitles.Add("");
-                    }
-                    else
-                    {
-                        topSongTitles.Add(currentSong.Title);
-                    }
-                }
-                foreach (string songTitle in topSongTitles)
-                {
-                    messageString += $"{counter}.) {songTitle}\r\n";
+                    messageString += $"{counter}.) {song.Title}\r\n";
                     counter++;
                 }
                 return SendMessage(messageString);
@@ -148,16 +157,16 @@ namespace TwilioProject.Controllers
             // Like
             else if (requestBody.ToLower() == "like")
             {
-                var currentSong = db.Songs.Where(s => s.YoutubeId == currentVideo.YoutubeId).First();
-                currentSong.Likes++;
+                db.Songs.Where(s => s.YoutubeId == currentVideo.YoutubeId).First().Likes++;
                 db.SaveChanges();
+                return SendMessage("you likey song");
             }
             // Dislike
             else if (requestBody.ToLower() == "dislike")
             {
-                var currentSong = db.Songs.Where(s => s.YoutubeId == currentVideo.YoutubeId).First();
-                currentSong.Dislikes++;
+                db.Songs.Where(s => s.YoutubeId == currentVideo.YoutubeId).First().Dislikes++;
                 db.SaveChanges();
+                return SendMessage("you no likey song");
             }
             // Song Search
             else
@@ -179,18 +188,17 @@ namespace TwilioProject.Controllers
             }
 
         }
-        public void SkipSong()
+        public ActionResult SkipSong()
         {
-            var controller = DependencyResolver.Current.GetService<HomeController>();
-            controller.ControllerContext = new ControllerContext(this.Request.RequestContext, controller);
 
+            return SendMessage("Not Yet Implemented.");
+            //var controller = DependencyResolver.Current.GetService<HomeController>();
+            //controller.ControllerContext = new ControllerContext(this.Request.RequestContext, controller);
+            //ControllerActionInvoker controllerActionInvoker = new ControllerActionInvoker();
+            ////HomeController homeController = new HomeController();
+            ////controllerContext.Controller.ControllerContext = homeController.ControllerContext;
+            //controllerActionInvoker.InvokeAction(controller.ControllerContext, "IndexTry");
 
-
-            ControllerActionInvoker controllerActionInvoker = new ControllerActionInvoker();
-            //HomeController homeController = new HomeController();
-            //controllerContext.Controller.ControllerContext = homeController.ControllerContext;
-            controllerActionInvoker.InvokeAction(controller.ControllerContext, "Index");
-            
         }
         public string VideosToMessage(List<string[]> videos)
         {
