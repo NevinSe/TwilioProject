@@ -6,28 +6,31 @@
 @Html.Partial("_PartialAttendeeSongRequest")
 
 
-        <div class="row whitespace-remove">
-            <div class=" whitespace-remove">
-                <div class="whitespace-remove text-primary">
-                    <center>
-                        <h2>Party Queue</h2>
-                    </center>
-                </div>
+<div class="row whitespace-remove">
+    <div class=" whitespace-remove">
+        <div class="whitespace-remove text-primary">
+            <center>
+                <h2>Party Queue</h2>
+            </center>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("QueueList")
+@Html.Partial("PopularList")
+
+@*<div class="container bg-primary">
+        <div class="row">
+            <div class="col-md-6 pull-left">
+                <h4 class="d-flex" id="songTitle">ViewBag.Title</h4>
+            </div>
+            <div class="col-md-3 pull-right">
+                <button class="btn btn-sm likeOrDislikeButtons">Dislike</button>
+            </div>
+            <div class="col-md-3 pull-right">
+                <button class="btn btn-sm likeOrDislikeButtons">Like</button>
             </div>
         </div>
-
-        <div class="container bg-primary">
-            <div class="row">
-                <div class="col-md-6 pull-left">
-                    <h4 class="d-flex" id="songTitle">ViewBag.Title</h4>
-                </div>
-                <div class="col-md-3 pull-right">
-                    <button class="btn btn-sm likeOrDislikeButtons">Dislike</button>
-                </div>
-                <div class="col-md-3 pull-right">
-                    <button class="btn btn-sm likeOrDislikeButtons">Like</button>
-                </div>
-            </div>
-        </div>        
+    </div>*@
 
 
