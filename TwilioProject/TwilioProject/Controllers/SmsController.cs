@@ -22,6 +22,26 @@ namespace TwilioProject.Controllers
         public static Playlist whoPlayed;
         private List<string[]> videos = new List<string[]>();
         private bool isCompleted = false;
+        public ActionResult YoutubeIndex()
+        {
+            VideoViewModel videoViewModel = new VideoViewModel();
+            //var video = "6tgAJtvRP70";
+            var video = db.Playlist.First();
+            Songs song = new Songs();
+            song.EventID = db.EventUsers.Where(p => p.PhoneNumber == video.PhoneNumber).Single().EventID;
+            song.SongLength = 4; //LOL
+            song.Title = video.Title;
+            song.YoutubeId = video.YoutubeID;
+            song.IsBanned = false;
+            videoViewModel.youtubeId = $"https://www.youtube.com/embed/{video.YoutubeID}?autoplay=1&enablejsapi=1";
+            //ViewBag.Video = $"https://www.youtube.com/embed/{video.YoutubeID}?autoplay=1&enablejsapi=1";
+            SmsController.currentVideo = song;
+            SmsController.whoPlayed = video;
+            db.Songs.Add(song);
+            db.Playlist.Remove(video);
+            db.SaveChanges();
+            return View(videoViewModel);
+        }
         [HttpPost]
         public ActionResult Index()
         {
@@ -126,7 +146,11 @@ namespace TwilioProject.Controllers
                 string messageString = "The Top Songs Are:\r\n";
                 int counter = 1;
                 var parsePhone = Phone.Parse(requestPhoneNumber);
+<<<<<<< HEAD
+                var currentSongs = db.Songs.OrderByDescending(o => o.Likes).Take(numberOfHotSongs).Select(p=>p).ToList();
+=======
                 var currentSongs = db.Songs.OrderByDescending(o => o.Likes).Take(numberOfHotSongs).Select(p => p).ToList();
+>>>>>>> d0b5345db7f8f41a77fc7399090764d79a980f45
                 foreach (Songs song in currentSongs)
                 {
                     messageString += $"{counter}.) {song.Title}\r\n";

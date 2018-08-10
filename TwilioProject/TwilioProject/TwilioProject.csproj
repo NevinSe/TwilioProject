@@ -273,6 +273,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Playlist.cs" />
     <Compile Include="Models\Songs.cs" />
+    <Compile Include="Models\VideoViewModel.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
@@ -542,16 +543,20 @@
     <Content Include="Views\EventUsers\PopularList.cshtml" />
     <Content Include="Views\EventUsers\ManageBannedSongs.cshtml" />
     <Content Include="Views\EventUsers\AttendeeIndex.cshtml" />
-    <Content Include="Views\Sms\Index.cshtml" />
+    <Content Include="Views\Sms\YoutubeIndex.cshtml" />
     <Content Include="Views\Sms\IndexTest.cshtml" />
     <Content Include="Views\Home\Landing.cshtml" />
     <Content Include="Views\Account\_PartialRegister.cshtml" />
+<<<<<<< HEAD
+    <Content Include="Views\Shared\Index.cshtml" />
+=======
     <Content Include="Views\EventUsers\CreateHost.cshtml" />
     <Content Include="Views\Account\_PartialRegisterAttendee.cshtml" />
     <Content Include="Views\Account\_PartialLoginHost.cshtml" />
     <Content Include="Views\Event\_PartialManageEvent.cshtml" />
     <Content Include="Views\EventUsers\_PartialAttendeeSongRequest.cshtml" />
     <Content Include="Views\EventUsers\SongSearchResults.cshtml" />
+>>>>>>> d0b5345db7f8f41a77fc7399090764d79a980f45
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
