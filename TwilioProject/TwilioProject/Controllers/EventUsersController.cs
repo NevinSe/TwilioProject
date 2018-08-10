@@ -50,10 +50,6 @@ namespace TwilioProject.Controllers
         {
             return View();
         }
-        public ActionResult SongSearchResults()
-        {
-            return View();
-        }
 
         //
         // GET: Host Creat
@@ -68,7 +64,7 @@ namespace TwilioProject.Controllers
         public ActionResult CreateHost(EventUsers model)
         {
             var user = User.Identity.GetUserId();
-            var newID = new Guid().ToString();            
+            var newID = new Guid().ToString();
             var newHost = new EventUsers { PhoneNumber = model.PhoneNumber, AppUserId = user, UserID = user };
             db.EventUsers.Add(newHost);
             db.SaveChanges();
@@ -90,11 +86,34 @@ namespace TwilioProject.Controllers
             for (var i = 0; i < searchResults.Count; i++)
             {
                 string result = searchResults[i][0];
-                songList.Add(result);                
+                songList.Add(result);
             }
+            Playlist model = new Playlist();
+            model.Title = song.Title;
             ViewBag.SongList = songList;
             return View("SongSearchResults");
         }
+        //GET: display top 5 search results to attendee
+        public ActionResult SongSearchResults()
+        {
+            return View();
+        }
+        //POST: queue the attendees final selection
+//GET: adds attendees song to the playlist
 
+        public ActionResult SearchResult(string Title)
+        {
+            YoutubeSearch songSearch = new YoutubeSearch();
+            var searchResults = songSearch.SearchByTitle(Title);
+
+                var selectedSong = searchResults.Select(x => searchResults[0]).First();
+                Playlist song = new Playlist();
+                song.Title = selectedSong[0];
+                song.YoutubeID = selectedSong[1];
+                db.Playlist.Add(song);
+                db.SaveChanges();
+            
+            return View("AttendeeIndex");
+        }
     }
 }
