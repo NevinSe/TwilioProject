@@ -59,8 +59,8 @@ namespace TwilioProject.Controllers
             var x = db.Playlist.Select(y => y.SongOrderID).ToArray();
             Array.Sort(x);
             List<Playlist> queue = new List<Playlist>();
-            int queueCount = (x.Count() < 5) ? x.Count() : 5;
-            for(int i = 0; i < queueCount; i++)
+            //int queueCount = (x.Count() < 5) ? x.Count() : 5;
+            for(int i = 0; i < x.Count(); i++)
             {
                 var songOrderID = x[i];
                 var newItem = db.Playlist.Where(y => y.SongOrderID == songOrderID).Select(y => y).FirstOrDefault();
@@ -135,10 +135,10 @@ namespace TwilioProject.Controllers
             var zz = db.Songs.Where(m => m.IsBanned == true).Select(m => m.Title).ToList();
             ViewBag.BannedList = zz;
 
-            var x = db.Playlist.Select(y => y).ToArray();
-            Array.Sort(x);
-            Playlist newitem = x[0];
-            ViewBag.CurrentSong = newitem;
+            //var x = db.Playlist.Select(y => y).ToArray();
+            //Array.Sort(x);
+            //Playlist newitem = x[0];
+            //ViewBag.CurrentSong = newitem;
             return PartialView();
         }
         // Post Banned Song

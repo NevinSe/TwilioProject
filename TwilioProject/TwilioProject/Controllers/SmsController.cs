@@ -60,21 +60,9 @@ namespace TwilioProject.Controllers
                 return SendMessage(whoPlayed.PhoneNumber);
             }
             // Ban User
-            else if (banUser.IsMatch(requestBody.ToLower())/* && Phone.Parse(requestPhoneNumber) == hostPhoneNumber*/)
+            else if (banUser.IsMatch(requestBody.ToLower().Trim()) && Phone.Parse(requestPhoneNumber) == hPN)
             {
-                var tempNumber = "";
-                foreach (char character in requestBody)
-                {
-                    try
-                    {
-                        tempNumber += int.Parse(character.ToString()).ToString();
-                    }
-                    catch (System.Exception)
-                    {
-                        return SendMessage("meh");
-                    }
-                }
-                var phoneNumber = Phone.Parse(tempNumber);
+                var phoneNumber = Phone.Parse(requestBody);
                 var bannedUser = db.EventUsers.Where(e => e.PhoneNumber == phoneNumber).SingleOrDefault();
                 if (bannedUser != default(EventUsers))
                 {
@@ -88,12 +76,12 @@ namespace TwilioProject.Controllers
                 }
             }
             // Ban Current Song
-            else if (requestBody.ToLower() == "ban song" /*&& Phone.Parse(requestPhoneNumber) == hostPhoneNumber*/)
+            else if (requestBody.ToLower() == "ban song" && Phone.Parse(requestPhoneNumber) == hPN)
             {
-                var currentSong = db.Playlist.First();
-                db.Songs.Where(s => s.YoutubeId == currentSong.YoutubeID).Single().IsBanned = true;
+                db.Songs.Where(s => s.YoutubeId == currentVideo.YoutubeId).Single().IsBanned = true;
                 db.SaveChanges();
-                SkipSong();
+                return SendMessage("This song has been banned");
+                //SkipSong();
             }
             // Skip Song
             else if (requestBody.ToLower() == "skip")
@@ -104,9 +92,10 @@ namespace TwilioProject.Controllers
             else if (songSelection.IsMatch(requestBody))
             {
                 SelectSong(requestBody, Phone.Parse(requestPhoneNumber));
+                return SendMessage("Your song has been added to the Queue");
             }
             // Help Host
-            else if (requestBody.ToLower() == "help12" && hostPhoneNumber != default(ApplicationUser))
+            else if (requestBody.ToLower() == "help12" && hostPhoneNumber.Id == db.Events.First().HostID)
             {
                 string hostHelpString = "Event Host Commands:\r\nBan User: 'ban (phone number)'\r\nBan Current Song: 'ban song'\r\n" +
                     "Skip Current Song: 'skip'\r\n" +
@@ -146,8 +135,7 @@ namespace TwilioProject.Controllers
                 string messageString = "The Top Songs Are:\r\n";
                 int counter = 1;
                 var parsePhone = Phone.Parse(requestPhoneNumber);
-                var currentSongs = db.Songs.OrderByDescending(o => o.Likes).Take(numberOfHotSongs).Select(p=>p).ToList();
-                //var currentSongs = db.Songs.OrderByDescending(o => o.Likes).Take(numberOfHotSongs).Select(p => p).ToList();
+                var currentSongs = db.Songs.OrderByDescending(o => o.Likes).Take(numberOfHotSongs).Select(p => p).ToList();
                 foreach (Songs song in currentSongs)
                 {
                     messageString += $"{counter}.) {song.Title}\r\n";
@@ -265,7 +253,6 @@ namespace TwilioProject.Controllers
                     break;
             }
             db.SaveChanges();
-            SendMessage("Your song has been added to the queue.");
         }
         public ActionResult EventCode(string number, string message)
         {
