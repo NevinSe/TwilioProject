@@ -1,0 +1,37 @@
+﻿@model TwilioProject.Models.Playlist
+@{
+    ViewBag.Title = "SongSearchResults";
+}
+
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            <div class="row whitespace-remove">
+                <div class=" whitespace-remove">
+                    <div class="whitespace-remove text-primary bg-primary">
+                        <center>
+                            <h2>Select Song</h2>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </th>
+
+    </tr>
+
+    @foreach (var item in ViewBag.SongList)
+    {
+        <tr>
+            <td>
+                @Html.DisplayTextFor(m => item);
+            </td>
+            <td>
+                 @Html.ActionLink("Select", "SearchResult", new { title = item })
+            </td>
+        </tr>
+    }
+
+</table>

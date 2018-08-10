@@ -256,6 +256,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\EventUsersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -537,7 +538,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\EventUsers\CreateEvent.cshtml" />
+    <Content Include="Views\Event\CreateEvent.cshtml" />
     <Content Include="Views\EventUsers\QueueList.cshtml" />
     <Content Include="Views\EventUsers\PopularList.cshtml" />
     <Content Include="Views\EventUsers\ManageBannedSongs.cshtml" />
@@ -546,7 +547,16 @@
     <Content Include="Views\Sms\IndexTest.cshtml" />
     <Content Include="Views\Home\Landing.cshtml" />
     <Content Include="Views\Account\_PartialRegister.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\Shared\Index.cshtml" />
+=======
+    <Content Include="Views\EventUsers\CreateHost.cshtml" />
+    <Content Include="Views\Account\_PartialRegisterAttendee.cshtml" />
+    <Content Include="Views\Account\_PartialLoginHost.cshtml" />
+    <Content Include="Views\Event\_PartialManageEvent.cshtml" />
+    <Content Include="Views\EventUsers\_PartialAttendeeSongRequest.cshtml" />
+    <Content Include="Views\EventUsers\SongSearchResults.cshtml" />
+>>>>>>> d0b5345db7f8f41a77fc7399090764d79a980f45
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

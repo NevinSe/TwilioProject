@@ -146,7 +146,11 @@ namespace TwilioProject.Controllers
                 string messageString = "The Top Songs Are:\r\n";
                 int counter = 1;
                 var parsePhone = Phone.Parse(requestPhoneNumber);
+<<<<<<< HEAD
                 var currentSongs = db.Songs.OrderByDescending(o => o.Likes).Take(numberOfHotSongs).Select(p=>p).ToList();
+=======
+                var currentSongs = db.Songs.OrderByDescending(o => o.Likes).Take(numberOfHotSongs).Select(p => p).ToList();
+>>>>>>> d0b5345db7f8f41a77fc7399090764d79a980f45
                 foreach (Songs song in currentSongs)
                 {
                     messageString += $"{counter}.) {song.Title}\r\n";
@@ -291,8 +295,8 @@ namespace TwilioProject.Controllers
                     {
                         PhoneNumber = userPhone,
                         EventID = myEvent.EventID
-
                     };
+                    newUser.isBanned = false;
                     db.EventUsers.Add(newUser);
                     db.SaveChanges();
                     return SendMessage($"You have been added to the event, {myEvent.EventName}.");

@@ -40,11 +40,22 @@ textarea {
 .landing-btn {
     margin: auto;
     border-radius: 0px;
-    height: 50vh;
+    height: 40vh;
     font-size: 15vw;
     text-align: center;
     vertical-align: middle;
     line-height: 50vh;
+}
+
+.landing-btn-sm {
+    display: inherit;
+    margin: auto;
+    border-radius: 0px;
+    height: 20vh;
+    font-size: 10vw;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 20vh;
 }
 
 #landing-container .btn {

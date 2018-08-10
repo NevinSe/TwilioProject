@@ -14,9 +14,18 @@ namespace TwilioProject.Controllers
         ApplicationDbContext db = new ApplicationDbContext();
         public ActionResult Index()
         {
+<<<<<<< HEAD
             VideoViewModel videoViewModel = new VideoViewModel();
             //var video = "6tgAJtvRP70";
             
+=======
+
+
+
+
+            //var video = "6tgAJtvRP70";
+
+>>>>>>> d0b5345db7f8f41a77fc7399090764d79a980f45
             var video = db.Playlist.First();
             Songs song = new Songs();
             song.EventID = db.EventUsers.Where(p => p.PhoneNumber == video.PhoneNumber).Single().EventID;
@@ -26,8 +35,13 @@ namespace TwilioProject.Controllers
             song.IsBanned = false;
             song.Likes = 0;
             song.Dislikes = 0;
+<<<<<<< HEAD
             videoViewModel.youtubeId = $"https://www.youtube.com/embed/{video.YoutubeID}?autoplay=1&enablejsapi=1";
             //ViewBag.Video = $"https://www.youtube.com/embed/{video.YoutubeID}?autoplay=1&enablejsapi=1";
+=======
+            //videoViewModel.youtubeId = $"https://www.youtube.com/embed/{video.YoutubeID}?autoplay=1&enablejsapi=1";
+            ViewBag.Video = $"https://www.youtube.com/embed/{video.YoutubeID}?autoplay=1&enablejsapi=1";
+>>>>>>> d0b5345db7f8f41a77fc7399090764d79a980f45
             ViewBag.Skip = SkipSong;
             SmsController.currentVideo = song;
             SmsController.whoPlayed = video;

@@ -15,13 +15,15 @@ namespace TwilioProject.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        ApplicationDbContext db = new ApplicationDbContext();
+
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
         public AccountController()
         {
         }
-
+        [ChildActionOnly]
         public ViewResult _PartialRegister()
         {
             return View();
@@ -56,7 +58,29 @@ namespace TwilioProject.Controllers
                 _userManager = value;
             }
         }
-
+        //
+        // Get /Account/_PartialLoginHost
+        [AllowAnonymous]
+        public ActionResult _PartialLoginHost()
+        {
+            return View();
+        }
+        //
+        // POST: /Account/_PArtialLoginHost
+        [HttpPost]
+        public ActionResult _PartialLoginHost(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Landing", "Home");
+            }
+            var result = SignInManager.PasswordSignIn(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            if (result == SignInStatus.Success)
+            {
+                return RedirectToAction("IndexHost", "EventUsers");
+            }
+            return RedirectToAction("Landing", "Home");
+        }
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -138,6 +162,11 @@ namespace TwilioProject.Controllers
                     return View(model);
             }
         }
+        
+
+
+
+
 
         //
         // GET: /Account/Register
@@ -171,7 +200,7 @@ namespace TwilioProject.Controllers
                     await this.UserManager.AddToRoleAsync(user.Id, "Host");
                     
 
-                    return RedirectToAction("IndexHost", "EventUsers");
+                    return RedirectToAction("CreateHost", "EventUsers");
                 }
                 AddErrors(result);
             }
@@ -180,7 +209,28 @@ namespace TwilioProject.Controllers
             //return View(model);
             return RedirectToAction("_PartialRegister", model);
         }
-
+        //
+        // GET: Account/_PartialRegisterAttendee
+        public ActionResult _PartialRegisterAttendee()
+        {
+            return PartialView();
+        }
+        //
+        // Post: Account/_PartialRegisterAttendee
+        [HttpPost]
+        public ActionResult _PartialRegisterAttendee(EventUsers model)
+        {
+            if (db.EventUsers.Find(model.PhoneNumber) != null)
+            {
+                var user = new EventUsers { PhoneNumber = model.PhoneNumber };
+                var newID = new Guid().ToString();
+                user.UserID = newID;
+                db.EventUsers.Add(user);
+                db.SaveChanges();
+            }
+            
+            return RedirectToAction("AttendeeIndex", "EventUsers");
+        }
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]

@@ -1,0 +1,47 @@
+﻿@model TwilioProject.Models.Songs
+@{
+    ViewBag.Title = "_PartialAttendeeSongRequest";
+}
+
+<div class="container whitespace-remove" id="host-index-container">
+    <div class="row whitespace-remove" id="attendeeJumbotron">
+        <div class="jumbotron jumbotron-fluid whitespace-remove">
+            <div class="container" id="attendeeJumboTronContent">
+                <center>
+                    <h2>Queue a Song</h2>
+                    <a href="#" id="songSearchButton" class="btn btn-lg" role="button" aria-disabled="false" data-toggle="modal" data-target="#songSearch">Search For a Song</a>
+                </center>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="songSearch" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Search For a Song</h4>
+                    @using (Html.BeginForm("_PartialAttendeeSongRequest", "EventUsers", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <center><h4>Search Youtube</h4></center>
+                        <hr />
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Title, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" class="btn btn-primary btn-block" value="Search" />
+                            </div>
+                        </div>
+                    }
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>              
+            </div>          
+        </div>       
+    </div>   
+ </div>

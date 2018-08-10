@@ -1,55 +1,28 @@
-﻿@{
+﻿
+@{
     ViewBag.Title = "AttendeeIndex";
 }
 
-<div class="container whitespace-remove" id="host-index-container">
-    <div class="row whitespace-remove" id="attendeeJumbotron">
-        <div class="jumbotron jumbotron-fluid whitespace-remove">
-            <div class="container" id="attendeeJumboTronContent">
-                <center>
-                    <h2>Queue a Song</h2>
-                    <a href="#" id="songSearchButton" class="btn btn-lg" role="button" aria-disabled="false" data-toggle="modal" data-target="#songSearch">Search For a Song</a>
-                </center>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="songSearch" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header text-center">
-                    <h4 class="modal-title w-100 font-weight-bold">Search For a Song</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body mx-3">
-                    <div class="md-form mb-5">
-                        <i class="fa fa-envelope prefix grey-text"></i>
-                        <input type="song" class="form-control validate">
-                        <label data-error="wrong" data-success="right" for="defaultForm-email">Enter Song or Artist Name</label>
-                    </div>
-                    @*<a href="#" onclick="location.href='@Url.Action("ActionName")'">Help</a>*@
-                </div>
-                <div class="modal-footer d-flex justify-content-center">
-                    <a href="#" class="btn btn-default" role="button" aria-disabled="false" data-toggle="modal" data-target="#topFiveReturnedSongs">Search</a>
-                </div>
-            </div>
-        </div>
-    </div>
+@Html.Partial("_PartialAttendeeSongRequest")
 
-    <div class="row whitespace-remove">
-        <div class=" whitespace-remove">
-            <div class="whitespace-remove text-primary">
-                <center>
-                    <h2>Party Queue</h2>
-                </center>
-            </div>
+
+<div class="row whitespace-remove">
+    <div class=" whitespace-remove">
+        <div class="whitespace-remove text-primary">
+            <center>
+                <h2>Party Queue</h2>
+            </center>
         </div>
     </div>
-    <div class="container bg-primary">
+</div>
+
+@Html.Action("QueueList")
+@Html.Action("PopularList")
+
+@*<div class="container bg-primary">
         <div class="row">
             <div class="col-md-6 pull-left">
-                <h4 class="d-flex"id="songTitle">ViewBag.Title</h4>
+                <h4 class="d-flex" id="songTitle">ViewBag.Title</h4>
             </div>
             <div class="col-md-3 pull-right">
                 <button class="btn btn-sm likeOrDislikeButtons">Dislike</button>
@@ -58,8 +31,6 @@
                 <button class="btn btn-sm likeOrDislikeButtons">Like</button>
             </div>
         </div>
-    </div>
-</div>
+    </div>*@
 
-@*<a href="#" class="btn btn-primary btn-block btn-lg" role="button" aria-disabled="false" data-toggle="modal" data-target="#modalHostLoginForm">Host</a>
-    <a href="#" class="btn btn-info btn-block btn-lg" role="button" aria-disabled="true" data-toggle="modal" data-target="#modalAttendeeLoginForm">Attendee</a>*@
+
