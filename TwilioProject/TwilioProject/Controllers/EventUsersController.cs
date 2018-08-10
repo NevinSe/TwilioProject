@@ -36,9 +36,7 @@ namespace TwilioProject.Controllers
                  where x.IsHosted == true
                  select x).FirstOrDefault();
 
-            var isActiveEvent = (requiredData != null) ? true : false;
-            // if isactive = true
-            // do event code turnary
+            var isActiveEvent = (requiredEventData != null) ? true : false;
             if (isActiveEvent)
 
             {
@@ -133,6 +131,13 @@ namespace TwilioProject.Controllers
         [ChildActionOnly]
         public ActionResult ManageBannedSongs()
         {
+            var bannedList =
+                from z in db.Songs
+                where z.IsBanned == true
+                select z;
+            var xx = bannedList.ToList();
+
+
             var x = db.Playlist.Select(y => y).ToArray();
             Array.Sort(x);
             Playlist newitem = x[0];
