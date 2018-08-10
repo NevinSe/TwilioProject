@@ -14,6 +14,10 @@ namespace TwilioProject.Controllers
         ApplicationDbContext db = new ApplicationDbContext();
         public ActionResult Index()
         {
+
+
+
+
             //var video = "6tgAJtvRP70";
 
             var video = db.Playlist.First();

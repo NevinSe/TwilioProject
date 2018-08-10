@@ -1,8 +1,6 @@
-﻿@model IEnumerable<TwilioProject.Models.Playlist>
+﻿<a href="#" class="btn btn-info btn-block btn-lg" role="button" aria-disabled="false" data-toggle="modal" data-target="#modalViewQueueList">View Queue</a>
 
-<a href="#" class="btn btn-info btn-block btn-lg" role="button" aria-disabled="false" data-toggle="modal" data-target="#modalViewQueueList">View Queue</a>
-
-<div class="modal fade" id="modalViewQueueList" tabindex="-1" role="dialog" aria-labelledby="modalViewQueueList" aria-hidden="true">
+<div class="modal fade" id="modalViewQueueList" tabindex="-1" role="dialog" aria-labelledby="modalViewQueueList" aria-hidden="true" style="color:black">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header text-center">
@@ -13,12 +11,16 @@
             </div>
             <div class="modal-body mx-3">
                 @* UNCOMMENT BEFORE DEPLOYMENT, ALSO DELETE THIS COMMENT BEFORE SUBMISSION *@
-                    @*<ul class="list-group">
-                        @foreach (var item in Model)
-                        {
-                            <li class="list-group-item">@Html.DisplayNameFor(x=>x.SongOrderID) | @Html.DisplayNameFor(x=>x.Title)</li>
+                    <ul class="list-group">
+                        @{ 
+                            var counter = 1;
                         }
-                    </ul>*@
+                        @foreach (var item in ViewBag.Queue)
+                        {
+                            <li class="list-group-item">@counter | @item.Title</li>
+                            counter++;
+                        }
+                    </ul>
 
             </div>
         </div>

@@ -271,8 +271,8 @@ namespace TwilioProject.Controllers
                     {
                         PhoneNumber = userPhone,
                         EventID = myEvent.EventID
-
                     };
+                    newUser.isBanned = false;
                     db.EventUsers.Add(newUser);
                     db.SaveChanges();
                     return SendMessage($"You have been added to the event, {myEvent.EventName}.");

@@ -1,5 +1,7 @@
-﻿@model TwilioProject.Models.Songs
-
+﻿@model TwilioProject.Models.Playlist
+@{
+    ViewBag.Title = "ManageBannedSongs";
+}
 <a href="#" class="btn btn-info btn-block btn-lg" role="button" aria-disabled="false" data-toggle="modal" data-target="#modalManageBannedSongs">Manage Banned Songs</a>
 
 <div class="modal fade" id="modalManageBannedSongs" tabindex="-1" role="dialog" aria-labelledby="modalManageBannedSongs" aria-hidden="true">
@@ -12,10 +14,8 @@
                 </button>
             </div>
             <div class="modal-body mx-3">
-                @*@Html.DropDownList("Banned Songs", (SelectList)ViewBag.BannedSongs)
-                <input type="submit" value="Remove From Banned List" />
-                @Html.DropDownList("Songs", (SelectList)ViewBag.Songs)
-                <input type="submit" value="Add To Banned List" />*@
+                @Html.DisplayFor(m => m.Title)
+                @Html.ActionLink("Ban Song", "_PartialAddBannedSong", new { id = Model.YoutubeID })
             </div>
         </div>
     </div>
