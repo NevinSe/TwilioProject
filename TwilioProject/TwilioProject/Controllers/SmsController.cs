@@ -7,6 +7,7 @@ using TwilioProject.Models;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
 namespace TwilioProject.Controllers
 {
     public class SmsController : TwilioController
@@ -123,23 +124,12 @@ namespace TwilioProject.Controllers
             {
                 int numberOfHotSongs = 5;
                 string messageString = "The Top Songs Are:\r\n";
-                List<string> topSongTitles = new List<string>();
                 int counter = 1;
-                for (int i = 0; i < numberOfHotSongs; i++)
+                var parsePhone = Phone.Parse(requestPhoneNumber);
+                var currentSongs = db.Songs.OrderByDescending(o => o.Likes).Take(numberOfHotSongs).Select(p => p).ToList();
+                foreach (Songs song in currentSongs)
                 {
-                    var currentSong = db.Songs.Where(s => s.EventID == (db.EventUsers.Where(e => e.PhoneNumber == Phone.Parse(requestPhoneNumber)).Single().EventID)).OrderBy(o => o.Likes).ElementAtOrDefault(i);
-                    if (currentSong == default(Songs))
-                    {
-                        topSongTitles.Add("");
-                    }
-                    else
-                    {
-                        topSongTitles.Add(currentSong.Title);
-                    }
-                }
-                foreach (string songTitle in topSongTitles)
-                {
-                    messageString += $"{counter}.) {songTitle}\r\n";
+                    messageString += $"{counter}.) {song.Title}\r\n";
                     counter++;
                 }
                 return SendMessage(messageString);
@@ -147,20 +137,21 @@ namespace TwilioProject.Controllers
             // Like
             else if (requestBody.ToLower() == "like")
             {
-                var currentSong = db.Songs.Where(s => s.YoutubeId == currentVideo.YoutubeId).First();
-                currentSong.Likes++;
+                db.Songs.Where(s => s.YoutubeId == currentVideo.YoutubeId).First().Likes++;
                 db.SaveChanges();
+                return SendMessage("you likey song");
             }
             // Dislike
             else if (requestBody.ToLower() == "dislike")
             {
-                var currentSong = db.Songs.Where(s => s.YoutubeId == currentVideo.YoutubeId).First();
-                currentSong.Dislikes++;
+                db.Songs.Where(s => s.YoutubeId == currentVideo.YoutubeId).First().Dislikes++;
                 db.SaveChanges();
+                return SendMessage("you no likey song");
             }
             // Song Search
             else
             {
+
                 Search(requestBody.ToLower().Trim());
                 IdAndTitleToDB(videos, Phone.Parse(requestPhoneNumber));
                 return SendMessage(VideosToMessage(videos));
@@ -169,20 +160,24 @@ namespace TwilioProject.Controllers
         }
         public void Search(string requestBody)
         {
+
             videos = search.SearchByTitle(requestBody);
             if (videos.Count != 0)
             {
                 isCompleted = true;
             }
+
         }
-        public void SkipSong()
+        public ActionResult SkipSong()
         {
-            var controller = DependencyResolver.Current.GetService<HomeController>();
-            controller.ControllerContext = new ControllerContext(this.Request.RequestContext, controller);
-            ControllerActionInvoker controllerActionInvoker = new ControllerActionInvoker();
-            //HomeController homeController = new HomeController();
-            //controllerContext.Controller.ControllerContext = homeController.ControllerContext;
-            controllerActionInvoker.InvokeAction(controller.ControllerContext, "Index");
+
+            return SendMessage("Not Yet Implemented.");
+            //var controller = DependencyResolver.Current.GetService<HomeController>();
+            //controller.ControllerContext = new ControllerContext(this.Request.RequestContext, controller);
+            //ControllerActionInvoker controllerActionInvoker = new ControllerActionInvoker();
+            ////HomeController homeController = new HomeController();
+            ////controllerContext.Controller.ControllerContext = homeController.ControllerContext;
+            //controllerActionInvoker.InvokeAction(controller.ControllerContext, "IndexTry");
 
         }
         public string VideosToMessage(List<string[]> videos)
@@ -254,17 +249,21 @@ namespace TwilioProject.Controllers
         public ActionResult EventCode(string number, string message)
         {
             string userPhone = Phone.Parse(number);
+
             // Find User by Number
             var user = db.EventUsers.Where(u => u.PhoneNumber == userPhone).SingleOrDefault();
+
             // New User
             if (user == default(EventUsers) && regex.IsMatch(message))
             {
                 var myEvent = db.Events.Where(e => e.IsHosted == true && e.EventCode == message.ToLower()).SingleOrDefault();
+
                 // Event Not Hosted or Wrong Code
                 if (myEvent == default(Events))
                 {
                     return SendMessage("Sorry, The Event You're Looking For Is Either Not Currently Hosted Or The Event Code Entered Is Incorrect.");
                 }
+
                 // Event Hosted and Code is Valid, New User
                 else
                 {
@@ -272,24 +271,29 @@ namespace TwilioProject.Controllers
                     {
                         PhoneNumber = userPhone,
                         EventID = myEvent.EventID
+
                     };
                     db.EventUsers.Add(newUser);
                     db.SaveChanges();
                     return SendMessage($"You have been added to the event, {myEvent.EventName}.");
                 }
             }
+
             // Returning User
             else if (user != default(EventUsers) && regex.IsMatch(message))
             {
                 var myEvent = db.Events.Where(e => e.IsHosted == true && e.EventCode == message.ToLower()).SingleOrDefault();
+
                 // EventHosted or Wrong Code
                 if (myEvent == default(Events))
                 {
                     return SendMessage("Sorry, The Event You're Looking For Is Either Not Currently Hosted Or The Event Code Entered Is Incorrect.");
                 }
+
                 // Event Hosted and Code Valid, Return User
                 else
                 {
+
                     user.EventID = myEvent.EventID;
                     db.SaveChanges();
                     return SendMessage($"You have been added to the event, {myEvent.EventName}.");

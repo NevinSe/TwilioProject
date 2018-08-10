@@ -31,10 +31,22 @@ namespace TwilioProject.Controllers
                 (from x in db.Events
                  where x.HostID == user
                  select x).FirstOrDefault();
-            var eventCode = (requiredEventData.IsHosted == true) ? requiredEventData.EventCode : null;
-            if (eventCode != null)
+            var myEvent =
+                (from x in db.Events
+                 where x.IsHosted == true
+                 select x).FirstOrDefault();
+
+            var isActiveEvent = (requiredData != null) ? true : false;
+            // if isactive = true
+            // do event code turnary
+            if (isActiveEvent)
+
             {
-                ViewBag.EventCode = eventCode;
+                var eventCode = (requiredEventData.IsHosted == true) ? requiredEventData.EventCode : null;
+                if (eventCode != null)
+                {
+                    ViewBag.EventCode = myEvent.EventCode;
+                }
             }
             else
             {
@@ -44,6 +56,15 @@ namespace TwilioProject.Controllers
         }
         public ActionResult QueueList()
         {
+            var x = db.Playlist.Select(y => y.SongOrderID).ToArray();
+            Array.Sort(x);
+            List<Playlist> queue = new List<Playlist>();
+            for(int i = 0; i < 4; i++)
+            {
+                var newItem = db.Playlist.Where(y => y.SongOrderID == x[i]).Select(y => y).FirstOrDefault();
+                queue.Add(newItem);
+            }
+            ViewBag.Queue = new SelectList(queue);
             return PartialView();
         }
         public ActionResult AttendeeIndex()
@@ -93,6 +114,7 @@ namespace TwilioProject.Controllers
             ViewBag.SongList = songList;
             return View("SongSearchResults");
         }
+
         //GET: display top 5 search results to attendee
         public ActionResult SongSearchResults()
         {
@@ -115,5 +137,6 @@ namespace TwilioProject.Controllers
             
             return View("AttendeeIndex");
         }
+
     }
 }
