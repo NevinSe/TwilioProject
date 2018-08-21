@@ -283,7 +283,8 @@ namespace TwilioProject.Controllers
                     newUser.isBanned = false;
                     db.EventUsers.Add(newUser);
                     db.SaveChanges();
-                    return SendMessage($"You have been added to the event, {myEvent.EventName}.");
+                    return SendMessage($"You have been added to the event, {myEvent.EventName}.\r\n" +
+                        $"Text 'commands' to receive a list of helpful commands.");
                 }
             }
 
@@ -304,7 +305,8 @@ namespace TwilioProject.Controllers
 
                     user.EventID = myEvent.EventID;
                     db.SaveChanges();
-                    return SendMessage($"You have been added to the event, {myEvent.EventName}.");
+                    return SendMessage($"You have been added to the event, {myEvent.EventName}." +
+                        $"Text 'commands' to receive a list of helpful commands.");
                 }
             }
             else
