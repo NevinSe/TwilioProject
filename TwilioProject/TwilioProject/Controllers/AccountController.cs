@@ -22,6 +22,7 @@ namespace TwilioProject.Controllers
 
         public AccountController()
         {
+            
         }
         [ChildActionOnly]
         public ViewResult _PartialRegister()
@@ -66,8 +67,9 @@ namespace TwilioProject.Controllers
             return View();
         }
         //
-        // POST: /Account/_PArtialLoginHost
+        // POST: /Account/_PartialLoginHost
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult _PartialLoginHost(LoginViewModel model)
         {
             if (!ModelState.IsValid)
@@ -211,6 +213,7 @@ namespace TwilioProject.Controllers
         }
         //
         // GET: Account/_PartialRegisterAttendee
+        [ChildActionOnly]
         public ActionResult _PartialRegisterAttendee()
         {
             return PartialView();
@@ -218,13 +221,13 @@ namespace TwilioProject.Controllers
         //
         // Post: Account/_PartialRegisterAttendee
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult _PartialRegisterAttendee(EventUsers model)
         {
             if (db.EventUsers.Find(model.PhoneNumber) != null)
             {
-                var user = new EventUsers { PhoneNumber = model.PhoneNumber };
-                var newID = new Guid().ToString();
-                user.UserID = newID;
+                var userID = User.Identity.GetUserId();
+                var user = new EventUsers { PhoneNumber = model.PhoneNumber, AppUserId = userID, UserID = userID};
                 db.EventUsers.Add(user);
                 db.SaveChanges();
             }

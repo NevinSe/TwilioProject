@@ -24,10 +24,10 @@ namespace TwilioProject.Controllers
         {
 
             var user = User.Identity.GetUserId();
-            var requiredData =
-                (from x in db.EventUsers
-                 where x.AppUserId == user
-                 select x).FirstOrDefault();
+            //var requiredData =
+            //    (from x in db.EventUsers
+            //     where x.AppUserId == user
+            //     select x).FirstOrDefault();
             var requiredEventData =
                 (from x in db.Events
                  where x.HostID == user
@@ -39,11 +39,11 @@ namespace TwilioProject.Controllers
 
             var isActiveEvent = (requiredEventData != null) ? true : false;
             if (isActiveEvent)
-
             {
                 var eventCode = (requiredEventData.IsHosted == true) ? requiredEventData.EventCode : null;
                 if (eventCode != null)
                 {
+                    ViewBag.EventCode = null;
                     ViewBag.EventCode = myEvent.EventCode;
                 }
             }
@@ -103,6 +103,16 @@ namespace TwilioProject.Controllers
             db.SaveChanges();
             return RedirectToAction("IndexHost");
         }
+        //[HttpPost]
+        //[AllowAnonymous]
+        //public ActionResult CreateAttendee(EventUsers model)
+        //{
+        //    var newID = new Guid().ToString();
+        //    var newAttendee = new EventUsers { PhoneNumber = model.PhoneNumber, UserID = newID };
+        //    db.EventUsers.Add(newAttendee);
+        //    db.SaveChanges();
+        //    return RedirectToAction("AttendeeIndex");
+        //}
         //GET: AttendeeSongRequest
         public ActionResult _PartialAttendeeSongRequest()
         {
@@ -162,6 +172,12 @@ namespace TwilioProject.Controllers
 
         public ActionResult SearchResult(string Title)
         {
+            var user = User.Identity.GetUserId();
+            var w =
+                (from q in db.EventUsers
+                 where q.AppUserId == user
+                 select q).FirstOrDefault();
+
             YoutubeSearch songSearch = new YoutubeSearch();
             var searchResults = songSearch.SearchByTitle(Title);
 
@@ -169,6 +185,7 @@ namespace TwilioProject.Controllers
                 Playlist song = new Playlist();
                 song.Title = selectedSong[0];
                 song.YoutubeID = selectedSong[1];
+                song.PhoneNumber = w.PhoneNumber;
                 db.Playlist.Add(song);
                 db.SaveChanges();
 

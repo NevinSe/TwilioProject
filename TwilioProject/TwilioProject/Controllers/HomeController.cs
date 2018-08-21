@@ -18,7 +18,7 @@ namespace TwilioProject.Controllers
             //var video = "6tgAJtvRP70";
             var video = db.Playlist.First();
             Songs song = new Songs();
-            song.EventID = db.EventUsers.Where(p => p.PhoneNumber == video.PhoneNumber).Single().EventID;
+            song.EventID = db.EventUsers.Where(p => p.PhoneNumber == video.PhoneNumber).First().EventID;
             song.SongLength = 4; //LOL
             song.Title = video.Title;
             song.YoutubeId = video.YoutubeID;
@@ -77,7 +77,7 @@ namespace TwilioProject.Controllers
         {
             return View();
         }
-        public ActionResult _PartialRegiter()
+        public ActionResult _PartialRegister()
         {
             return RedirectToAction("_PartialRegister", "Account");
         }

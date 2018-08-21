@@ -2,27 +2,27 @@
 @{
     ViewBag.Title = "ManageBannedSongs";
 }
-<a href="#" class="btn btn-info btn-block btn-lg" role="button" aria-disabled="false" data-toggle="modal" data-target="#modalManageBannedSongs" style="color: black">Manage Banned Songs</a>
+<a href="#" class="btn btn-info btn-block btn-lg" role="button" aria-disabled="false" data-toggle="modal" data-target="#modalManageBannedSongs" style="color: white">Manage Banned Songs</a>
 
 <div class="modal fade" id="modalManageBannedSongs" tabindex="-1" role="dialog" aria-labelledby="modalManageBannedSongs" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header text-center">
-                <h4 class="modal-title w-100 font-weight-bold">Manage Banned Songs</h4>
+                <h4 class="modal-title w-100 font-weight-bold" style="color:black">Manage Banned Songs</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body mx-3">
         
-                    <table class="table" style="color:black">
+                    <table class="table" >
                         <tr>
-                            <th>Song Title</th>
+                            <th style="color:black">Song Title</th>
                         </tr>
                         @foreach (var item in ViewBag.BannedList)
                         {
                             <tr>
-                                <td>@Html.DisplayTextFor(m => item)</td>
+                                <td style="color:black">@Html.DisplayTextFor(m => item)</td>
                             </tr>
                         }
                     </table>

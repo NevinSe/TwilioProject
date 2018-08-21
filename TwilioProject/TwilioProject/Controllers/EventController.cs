@@ -32,10 +32,10 @@ namespace TwilioProject.Controllers
         {
             var user = User.Identity.GetUserId();
 
-            var requiredData =
-                (from x in db.EventUsers
-                 where x.UserID == user
-                 select x).FirstOrDefault();
+            //var requiredData =
+            //    (from x in db.EventUsers
+            //     where x.UserID == user
+            //     select x).FirstOrDefault();
 
             var createdEvent = new Events { EventName = newEvent.EventName, HostID = user, EventCode = newEvent.EventCode, IsHosted = true };
             db.Events.Add(createdEvent);
