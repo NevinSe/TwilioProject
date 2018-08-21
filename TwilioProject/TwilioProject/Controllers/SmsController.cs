@@ -50,7 +50,7 @@ namespace TwilioProject.Controllers
             var hPN = Phone.Parse(requestPhoneNumber);
             var hostPhoneNumber = db.Users.Where(p => p.PhoneNumber == hPN).SingleOrDefault();
             // Event Code
-            if (regex.IsMatch(requestBody) && !db.EventUsers.Any(c => c.PhoneNumber.Contains(requestPhoneNumber)))
+            if (regex.IsMatch(requestBody) && requestBody.ToLower() != "queue" && !db.EventUsers.Any(c => c.PhoneNumber.Contains(requestPhoneNumber)))
             {
                 return EventCode(requestPhoneNumber, requestBody);
             }
@@ -95,7 +95,7 @@ namespace TwilioProject.Controllers
                 return SendMessage("Your song has been added to the Queue");
             }
             // Help Host
-            else if (requestBody.ToLower() == "help12" && hostPhoneNumber.Id == db.Events.First().HostID)
+            else if (requestBody.ToLower() == "commands" && hostPhoneNumber.Id == db.Events.First().HostID)
             {
                 string hostHelpString = "Event Host Commands:\r\nBan User: 'ban (phone number)'\r\nBan Current Song: 'ban song'\r\n" +
                     "Skip Current Song: 'skip'\r\n" +
@@ -105,7 +105,7 @@ namespace TwilioProject.Controllers
                 return SendMessage(hostHelpString);
             }
             // Help User
-            else if (requestBody.ToLower() == "help12" /*&& Phone.Parse(requestPhoneNumber) != hostPhoneNumber*/)
+            else if (requestBody.ToLower() == "commands" /*&& Phone.Parse(requestPhoneNumber) != hostPhoneNumber*/)
             {
                 string userHelpString = "Event User Commands:\r\n" +
                     "Who Is Playing The Current Song: 'who played this'\r\n" +
@@ -116,7 +116,7 @@ namespace TwilioProject.Controllers
                 return SendMessage(userHelpString);
             }
             // Queue
-            else if (requestBody.ToLower() == "que")
+            else if (requestBody.ToLower() == "queue")
             {
                 var videos = db.Playlist;
                 var messageString = "";
