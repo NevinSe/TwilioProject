@@ -101,7 +101,7 @@ namespace TwilioProject.Controllers
                     "Skip Current Song: 'skip'\r\n" +
                     "Who Played Current Song: 'who played this'\r\n" +
                     "List Of The Song Queue: 'queue'\r\nList Of 'Hot' Songs: 'hot'\r\n" +
-                    "Like A Song: 'like'\r\nDislike A Song: 'song'\r\nRequest A Song To Be Added: 'songtitle'";
+                    "Like A Song: 'like'\r\nDislike A Song: 'dislike'\r\nRequest A Song To Be Added: 'songtitle'";
                 return SendMessage(hostHelpString);
             }
             // Help User
@@ -111,7 +111,7 @@ namespace TwilioProject.Controllers
                     "Who Is Playing The Current Song: 'who played this'\r\n" +
                     "Get A List Of The Song Queue: 'queue'\r\n" +
                     "Get A List Of 'Hot' Songs: 'hot'\r\n" +
-                    "Like A Song: 'like'\r\nDislike A Song: 'song'\r\n" +
+                    "Like A Song: 'like'\r\nDislike A Song: 'dislike'\r\n" +
                     "Request A Song To Be Added: 'songtitle'";
                 return SendMessage(userHelpString);
             }
@@ -148,14 +148,14 @@ namespace TwilioProject.Controllers
             {
                 db.Songs.Where(s => s.YoutubeId == currentVideo.YoutubeId).First().Likes++;
                 db.SaveChanges();
-                return SendMessage("you likey song");
+                return SendMessage("You have liked the current song.");
             }
             // Dislike
             else if (requestBody.ToLower() == "dislike")
             {
                 db.Songs.Where(s => s.YoutubeId == currentVideo.YoutubeId).First().Dislikes++;
                 db.SaveChanges();
-                return SendMessage("you no likey song");
+                return SendMessage("You have disliked the current song.");
             }
             // Song Search
             else
