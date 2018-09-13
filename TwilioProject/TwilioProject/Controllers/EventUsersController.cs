@@ -24,10 +24,7 @@ namespace TwilioProject.Controllers
         {
 
             var user = User.Identity.GetUserId();
-            //var requiredData =
-            //    (from x in db.EventUsers
-            //     where x.AppUserId == user
-            //     select x).FirstOrDefault();
+            
             var requiredEventData =
                 (from x in db.Events
                  where x.HostID == user
@@ -59,7 +56,6 @@ namespace TwilioProject.Controllers
             var x = db.Playlist.Select(y => y.SongOrderID).ToArray();
             Array.Sort(x);
             List<Playlist> queue = new List<Playlist>();
-            //int queueCount = (x.Count() < 5) ? x.Count() : 5;
             for(int i = 0; i < x.Count(); i++)
             {
                 var songOrderID = x[i];
@@ -103,16 +99,7 @@ namespace TwilioProject.Controllers
             db.SaveChanges();
             return RedirectToAction("IndexHost");
         }
-        //[HttpPost]
-        //[AllowAnonymous]
-        //public ActionResult CreateAttendee(EventUsers model)
-        //{
-        //    var newID = new Guid().ToString();
-        //    var newAttendee = new EventUsers { PhoneNumber = model.PhoneNumber, UserID = newID };
-        //    db.EventUsers.Add(newAttendee);
-        //    db.SaveChanges();
-        //    return RedirectToAction("AttendeeIndex");
-        //}
+        
         //GET: AttendeeSongRequest
         public ActionResult _PartialAttendeeSongRequest()
         {
@@ -144,11 +131,7 @@ namespace TwilioProject.Controllers
         {
             var zz = db.Songs.Where(m => m.IsBanned == true).Select(m => m.Title).ToList();
             ViewBag.BannedList = zz;
-
-            //var x = db.Playlist.Select(y => y).ToArray();
-            //Array.Sort(x);
-            //Playlist newitem = x[0];
-            //ViewBag.CurrentSong = newitem;
+            
             return PartialView();
         }
         // Post Banned Song
@@ -191,7 +174,5 @@ namespace TwilioProject.Controllers
 
             return View("AttendeeIndex");
         }
-
-
     }
 }

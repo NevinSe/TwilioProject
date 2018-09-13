@@ -25,16 +25,14 @@ namespace TwilioProject.Controllers
         public ActionResult YoutubeIndex()
         {
             VideoViewModel videoViewModel = new VideoViewModel();
-            //var video = "6tgAJtvRP70";
             var video = db.Playlist.First();
             Songs song = new Songs();
             song.EventID = db.EventUsers.Where(p => p.PhoneNumber == video.PhoneNumber).Single().EventID;
-            song.SongLength = 4; //LOL
+            song.SongLength = 4;
             song.Title = video.Title;
             song.YoutubeId = video.YoutubeID;
             song.IsBanned = false;
             videoViewModel.youtubeId = $"https://www.youtube.com/embed/{video.YoutubeID}?autoplay=1&enablejsapi=1";
-            //ViewBag.Video = $"https://www.youtube.com/embed/{video.YoutubeID}?autoplay=1&enablejsapi=1";
             SmsController.currentVideo = song;
             SmsController.whoPlayed = video;
             db.Songs.Add(song);
@@ -105,7 +103,7 @@ namespace TwilioProject.Controllers
                 return SendMessage(hostHelpString);
             }
             // Help User
-            else if (requestBody.ToLower() == "commands" /*&& Phone.Parse(requestPhoneNumber) != hostPhoneNumber*/)
+            else if (requestBody.ToLower() == "commands")
             {
                 string userHelpString = "Event User Commands:\r\n" +
                     "Who Is Playing The Current Song: 'who played this'\r\n" +
@@ -160,7 +158,6 @@ namespace TwilioProject.Controllers
             // Song Search
             else
             {
-
                 Search(requestBody.ToLower().Trim());
                 IdAndTitleToDB(videos, Phone.Parse(requestPhoneNumber));
                 return SendMessage(VideosToMessage(videos));
@@ -169,17 +166,14 @@ namespace TwilioProject.Controllers
         }
         public void Search(string requestBody)
         {
-
             videos = search.SearchByTitle(requestBody);
             if (videos.Count != 0)
             {
                 isCompleted = true;
             }
-
         }
         public ActionResult SkipSong()
         {
-
             return SendMessage("Not Yet Implemented.");
             //var controller = DependencyResolver.Current.GetService<HomeController>();
             //controller.ControllerContext = new ControllerContext(this.Request.RequestContext, controller);
@@ -257,10 +251,8 @@ namespace TwilioProject.Controllers
         public ActionResult EventCode(string number, string message)
         {
             string userPhone = Phone.Parse(number);
-
             // Find User by Number
             var user = db.EventUsers.Where(u => u.PhoneNumber == userPhone).SingleOrDefault();
-
             // New User
             if (user == default(EventUsers) && regex.IsMatch(message))
             {
